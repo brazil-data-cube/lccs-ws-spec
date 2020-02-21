@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "redoc-cli bundle api/v0.2.0/lccs_ws.yaml --output dist/index.html"
+    "build": "redoc-cli bundle api/lccs_ws.yaml --output dist/index.html"
   },
   "author": "Fabiana Zioti",
   "license": "MIT",
