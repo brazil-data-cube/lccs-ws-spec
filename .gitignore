@@ -102,3 +102,18 @@ dist
 
 # TernJS port file
 .tern-port
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyCharm
+.idea/
