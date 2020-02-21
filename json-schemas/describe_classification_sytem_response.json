@@ -1,0 +1,142 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "localhost/lccs_ws/describe_classification_system_response.json",
+  "type": "object",
+  "title": "LCCS-WS - Describe Classification System operation",
+  "required": [
+    "id",
+    "name",
+    "authority_name",
+    "description",
+    "version",
+    "classes"
+  ],
+  "properties": {
+    "id":{
+      "$id": "#/properties/id",
+      "type": "number",
+      "title": "The Classification System identificator",
+      "default": "",
+      "examples": [
+            1
+      ]
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The Classification System Name",
+      "default": "",
+      "examples": [
+        "Prodes"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "authority_name": {
+      "$id": "#/properties/authority_name",
+      "type": "string",
+      "title": "The Authority Name of the Classification System",
+      "default": "",
+      "examples": [
+        "INPE"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "type": "string",
+      "title": "The Description of Classification System",
+      "default": "",
+      "pattern": "^(.*)$"
+    } ,
+    "version":{
+      "$id": "#/properties/version",
+      "type": "number",
+      "title": "The Classification System Version",
+      "default": "",
+      "examples": [
+            2
+      ]
+    },
+
+    "classes": {
+      "$id": "#/properties/class",
+      "type": "array",
+      "title": "Classes of Classification System",
+      "description": "Defines list of classification system classes from server",
+      "default": false,
+      "items": {
+        "$id": "#/properties/class/items",
+        "type": "string",
+        "title": "Classification System Class Schema",
+        "description": "Classification System Class Identifier",
+        "required": [
+          "id",
+          "name",
+          "code",
+          "description",
+          "style",
+          "parent_id"
+        ],
+        "properties":{
+          "id":{
+            "$id": "#/properties/class/items/properties/id",
+            "type": "number",
+            "title": "Class identificator",
+            "default": "",
+            "examples": [
+              2
+            ]
+          },
+          "name":{
+            "$id": "#/properties/class/items/properties/name",
+            "type": "string",
+            "title": "Class Name",
+            "default": "",
+            "examples": [
+              "Floresta"
+            ]
+          },
+          "code":{
+            "$id": "#/properties/class/items/properties/code",
+            "type": "string",
+            "title": "Class Code",
+            "default": "FLORESTA",
+            "examples": [
+
+            ]
+          },
+          "description":{
+            "$id": "#/properties/class/items/properties/description",
+            "type": "string",
+            "title": "Class Description",
+            "default": "",
+            "examples": [
+              "Floresta Primária"
+            ]
+          },
+          "style":{
+            "$id": "#/properties/class/items/properties/style",
+            "type": "string",
+            "title": "Class Style",
+            "default": "#bc0000",
+            "examples": [
+
+            ]
+          },
+          "parent_id":{
+            "$id": "#/properties/class/items/properties/parent_id",
+            "type": "number",
+            "title": "Class Parent Id",
+            "default": "",
+            "examples": [
+              "1"
+            ]
+          }
+        }
+      }
+    }
+
+
+  }
+}

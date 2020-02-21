@@ -1,0 +1,29 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "localhost/lccs_ws/classification_systems.json",
+  "type": "object",
+  "title": "WLTS - List Classification System operation",
+  "description": "Retrieves list of offered classification system",
+  "required": [
+    "classification_systems"
+  ],
+  "classification_systems": {
+      "$id": "#/properties/classification_systems",
+      "type": "array",
+      "title": "Classification Systems Names",
+      "description": "Defines list of classification systems names from server",
+      "default": false,
+      "items": {
+        "$id": "#/properties/classification_systems/items",
+        "type": "string",
+        "title": "Classification System Identifier",
+        "description": "Classification System identifier",
+        "default": "",
+        "examples": [
+          "Prodes",
+          "TerraClass"
+        ]
+      }
+    }
+}
