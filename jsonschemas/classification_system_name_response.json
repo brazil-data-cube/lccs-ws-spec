@@ -9,8 +9,7 @@
     "name",
     "authority_name",
     "description",
-    "version",
-    "classes"
+    "version"
   ],
   "properties": {
     "id":{

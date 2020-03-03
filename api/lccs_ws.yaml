@@ -155,6 +155,10 @@ components:
       type: object
       required:
         - name
+        - id
+        - authority_name
+        - description
+        - version
       properties:
         id:
           type: number
@@ -180,6 +184,9 @@ components:
       type: object
       required:
         - name
+        - id
+        - description
+        - style
       properties:
         id:
           type: number

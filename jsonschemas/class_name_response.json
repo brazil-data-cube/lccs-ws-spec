@@ -9,8 +9,7 @@
     "name",
     "code",
     "description",
-    "style",
-    "parent"
+    "style"
   ],
 
   "properties": {
