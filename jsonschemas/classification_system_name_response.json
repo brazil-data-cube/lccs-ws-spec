@@ -1,16 +1,15 @@
 {
   "definitions": {},
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "localhost/lccs_ws/describe_classification_system_response.json",
+  "$id": "localhost/lccs_ws/<name>.json",
   "type": "object",
-  "title": "LCCS-WS - Describe Classification System operation",
+  "title": "LCCS-WS - Classification System Medata operation",
   "required": [
     "id",
     "name",
     "authority_name",
     "description",
-    "version",
-    "classes"
+    "version"
   ],
   "properties": {
     "id":{
@@ -58,7 +57,6 @@
             2
       ]
     },
-
     "classes": {
       "$id": "#/properties/class",
       "type": "array",
@@ -72,11 +70,7 @@
         "description": "Classification System Class Identifier",
         "required": [
           "id",
-          "name",
-          "code",
-          "description",
-          "style",
-          "parent_id"
+          "name"
         ],
         "properties":{
           "id":{
@@ -95,42 +89,6 @@
             "default": "",
             "examples": [
               "Floresta"
-            ]
-          },
-          "code":{
-            "$id": "#/properties/class/items/properties/code",
-            "type": "string",
-            "title": "Class Code",
-            "default": "FLORESTA",
-            "examples": [
-
-            ]
-          },
-          "description":{
-            "$id": "#/properties/class/items/properties/description",
-            "type": "string",
-            "title": "Class Description",
-            "default": "",
-            "examples": [
-              "Floresta Primária"
-            ]
-          },
-          "style":{
-            "$id": "#/properties/class/items/properties/style",
-            "type": "string",
-            "title": "Class Style",
-            "default": "#bc0000",
-            "examples": [
-
-            ]
-          },
-          "parent_id":{
-            "$id": "#/properties/class/items/properties/parent_id",
-            "type": "number",
-            "title": "Class Parent Id",
-            "default": "",
-            "examples": [
-              "1"
             ]
           }
         }

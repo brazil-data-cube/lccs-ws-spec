@@ -3,8 +3,8 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "localhost/lccs_ws/classification_systems.json",
   "type": "object",
-  "title": "WLTS - List Classification System operation",
-  "description": "Retrieves list of offered classification system",
+  "title": "LCCS-WS - List Classification Systems operation",
+  "description": "Retrieves list of offered classification systems",
   "required": [
     "classification_systems"
   ],
@@ -17,12 +17,13 @@
       "items": {
         "$id": "#/properties/classification_systems/items",
         "type": "string",
-        "title": "Classification System Identifier",
-        "description": "Classification System identifier",
+        "title": "Classification Systems Names Identifier",
+        "description": "List of Classification Systems Names. This names can be using in another operations.",
         "default": "",
         "examples": [
           "Prodes",
-          "TerraClass"
+          "TerraClass",
+          "MapBiomas3"
         ]
       }
     }
