@@ -27,7 +27,7 @@ paths:
 
     get:
       summary: List Classification Systems.
-      description: Retrieve list of available classification systems.
+      description: Retrieve list of available classification systems avaliable on server.
       responses:
         '200':
           description: Array of classification systems.
@@ -36,10 +36,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ClassificationSystemsList'
 
-  '/classification_system/{name}':
+  '/{name}':
 
     parameters:
-       - $ref: '#/components/parameters/Classification_name'
+       - $ref: '#/components/parameters/Classification_System_Name'
 
     get:
       summary: Retrives metadata of classification system by name.
@@ -62,19 +62,19 @@ paths:
         '404':
           description: Classification System not found
 
-  '/classification_system/{name}/{class_name}':
+  '/{name}/{class_name}':
 
     parameters:
-      - $ref: '#/components/parameters/Classification_name'
-      - $ref: '#/components/parameters/Class_name'
+      - $ref: '#/components/parameters/Classification_System_Name'
+      - $ref: '#/components/parameters/Class_Name'
 
     get:
-      summary: Retrives metadata of classification system class by name.
-      description: Returns information of classification system class by name.
+      summary: Retrives metadata of class by name.
+      description: Returns information of class by name.
       operationId: getClassificationSysClassByName
       responses:
         200:
-          description: Classification System Class metadata
+          description: Class metadata
           content:
               application/json:
                 schema:
@@ -121,7 +121,7 @@ components:
 
   parameters:
 
-    Classification_name:
+    Classification_System_Name:
       in: path
       name: name
       required: true
@@ -129,7 +129,7 @@ components:
       schema:
         type: string
 
-    Class_name:
+    Class_Name:
       in: path
       name: class_name
       required: true
@@ -166,7 +166,7 @@ components:
           type: string
         version:
           type: string
-        class:
+        classes:
           type: array
           items:
             type: object
@@ -175,14 +175,6 @@ components:
                 type: number
               name:
                 type: string
-              code:
-                type: string
-              description:
-                type: string
-              style:
-                type: string
-              parent_id:
-                type: number
 
     ClassificationSystemClassDescription:
       type: object
@@ -199,8 +191,13 @@ components:
           type: string
         style:
           type: string
-        parent_id:
-          type: integer
+        parent:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
 
 
     ClassificationSystemMapping:

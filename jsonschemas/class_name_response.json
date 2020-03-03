@@ -1,0 +1,90 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "localhost/lccs_ws/<name>/<class_name>.json",
+  "type": "object",
+  "title": "LCCS-WS - Class Medata operation",
+  "required": [
+    "id",
+    "name",
+    "code",
+    "description",
+    "style",
+    "parent"
+  ],
+
+  "properties": {
+    "id":{
+      "$id": "#/properties/id",
+      "type": "number",
+      "title": "The Classification System identificator",
+      "default": "",
+      "examples": [
+            1
+      ]
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The Classification System Name",
+      "default": "",
+      "examples": [
+        "Prodes"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "code": {
+      "$id": "#/properties/code",
+      "type": "string",
+      "title": "The Code of the Class",
+      "default": "",
+      "examples": [
+        "31"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "type": "string",
+      "title": "The Description of Classification System",
+      "default": "",
+      "pattern": "^(.*)$"
+    } ,
+    "style":{
+      "$id": "#/properties/style",
+      "type": "number",
+      "title": "The Class Style",
+      "default": "",
+      "examples": [
+            2
+      ]
+    },
+    "parent": {
+      "$id": "#/properties/parent",
+      "type": "object",
+      "title": "Parent of Class",
+      "description": "Defines class parent from server",
+      "default": false,
+      "properties": {
+        "id":{
+            "$id": "#/properties/class/items/properties/id",
+            "type": "number",
+            "title": "Class identificator",
+            "default": "",
+            "examples": [
+              2
+            ]
+          },
+          "name":{
+            "$id": "#/properties/class/items/properties/name",
+            "type": "string",
+            "title": "Class Name",
+            "default": "",
+            "examples": [
+              "Floresta"
+            ]
+          }
+      }
+    }
+  }
+}
