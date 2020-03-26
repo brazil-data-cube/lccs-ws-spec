@@ -35,6 +35,29 @@ paths:
           $ref: '#/components/responses/ClassificationSystems'
         '500':
           $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+       - Classification Systems
+      summary: >
+        Create a new classification system. The server chooses 201 the URL of
+        the new resource and returns the new classification system in the
+        response.
+      operationId: postClassSystem
+      requestBody:
+        description: "Informations to create classification system"
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/class_system_body'
+      responses:
+        '201':
+          description: "Information of new classification system"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/class_system_body'
+
 
   '/classification_systems/{system_id}':
     parameters:
@@ -156,6 +179,23 @@ components:
   #-------------------------------
 
   schemas:
+
+    class_system_body:
+      type: object
+      required:
+        - authority_name
+        - name
+        - description
+        - version
+      properties:
+        name:
+          type: string
+        authority_name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
 
     classification_system:
       type: object
