@@ -24,94 +24,114 @@ servers:
 paths:
 
   '/classification_systems':
-
     get:
-      summary: List Classification Systems.
-      description: Retrieve list of available classification systems avaliable on server.
+      tags:
+        - Classification Systems
+      summary: List of Classification System.
+      description: Retrieve list of available classification systems.
+      operationId: getClassificationSystems
       responses:
         '200':
-          description: Array of classification systems.
+          $ref: '#/components/responses/ClassificationSystems'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+       - Classification Systems
+      summary: >
+        Create a new classification system. The server chooses 201 the URL of
+        the new resource and returns the new classification system in the
+        response.
+      operationId: postClassSystem
+      requestBody:
+        description: "Informations to create classification system"
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/class_system_body'
+      responses:
+        '201':
+          description: "Information of new classification system"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClassificationSystemsList'
+                $ref: '#/components/schemas/class_system_body'
 
-  '/{name}':
 
+  '/classification_systems/{system_id}':
     parameters:
-       - $ref: '#/components/parameters/Classification_System_Name'
-
+       - $ref: '#/components/parameters/system_id'
     get:
-      summary: Retrives metadata of classification system by name.
-      description: Returns information of classification system by name.
-      operationId: getClassificationSysByName
+      tags:
+        - Classification Systems
+      summary: >
+        Describe the classification system with id `system_id`
+      description: Returns information of classification system by Id.
+      operationId: describeClassificationSystem
       responses:
-        200:
-          description: Classification System metadata
-          content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ClassificationSystemDescription'
-    delete:
-      summary: Deletes the classification system with the specified name.
-      responses:
-        '204':
-          description: Classification System was deleted.
-        '400':
-          description: Invalid Name supplied
+        '200':
+          $ref: '#/components/responses/ClassificationSystem'
         '404':
-          description: Classification System not found
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
-  '/{name}/{class_name}':
-
-    parameters:
-      - $ref: '#/components/parameters/Classification_System_Name'
-      - $ref: '#/components/parameters/Class_Name'
-
+  '/classification_systems/{system_id}/classes':
     get:
-      summary: Retrives metadata of class by name.
-      description: Returns information of class by name.
-      operationId: getClassificationSysClassByName
+      tags:
+        - Classes
+      summary: fetch classes
+      description: >
+        Fetch classes of the classification with id `system_id`.
+      operationId: getClasses
+      parameters:
+        - $ref: '#/components/parameters/system_id'
       responses:
-        200:
-          description: Class metadata
-          content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ClassificationSystemClassDescription'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '200':
+          $ref: '#/components/responses/Classes'
 
+  '/classification_systems/{system_id}/classes/{classe_id}':
+    get:
+      tags:
+        - Classes
+      summary: fetch a single classe
+      description: >
+          Fetch the classe with id `classe_id` in the classification system
+          with id `system_id`.
+      operationId: getClasse
+      parameters:
+          - $ref: '#/components/parameters/system_id'
+          - $ref: '#/components/parameters/classe_id'
+      responses:
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '200':
+          $ref: '#/components/responses/Classe'
 
-  '/classification_systems_mappings/{class_name_source}/{class_name_target}':
-
-     parameters:
-        - name: class_name_source
-          in: path
-          description: Source Classification System Class Name
-          required: true
-          schema:
-            type: string
-
-        - name: class_name_target
-          in: path
-          description: Target Classification System Class Name
-          required: true
-          schema:
-            type: string
-
-     get:
+  '/mappings/{system_id_source}/{system_id_target}':
+    get:
+      tags:
+        - Mappings
       summary: Retrives classification systems mappings
-      description: Returns information of classification systems mappings.
-      operationId: getClassificationSysMapping
+      description: Mapping of classification systems.
+      operationId: getMapping
+      parameters:
+        - $ref: '#/components/parameters/system_id_source'
+        - $ref: '#/components/parameters/system_id_target'
       responses:
-        200:
-          description: Classification Systems Mappings
-          content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ClassificationSystemMapping'
-
-
-
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '200':
+          $ref: '#/components/responses/Mappings'
 
 components:
 
@@ -121,21 +141,38 @@ components:
 
   parameters:
 
-    Classification_System_Name:
+    system_id:
+      name: system_id
       in: path
-      name: name
+      description: Identifier (name) of a classification system
       required: true
-      description: Classification System Name
       schema:
         type: string
 
-    Class_Name:
+    classe_id:
+      name: classe_id
       in: path
-      name: class_name
+      description: Identifier (name) of a class
       required: true
-      description: Class Name
       schema:
         type: string
+
+    system_id_source:
+      name: system_id_source
+      in: path
+      description: Identifier (name) of a source classification system
+      required: true
+      schema:
+        type: string
+
+    system_id_target:
+      name: system_id_target
+      in: path
+      description: Identifier (name) of a target classification system
+      required: true
+      schema:
+        type: string
+
 
   #-------------------------------
   # Reusable schemas (data models)
@@ -143,22 +180,29 @@ components:
 
   schemas:
 
-    ClassificationSystemsList:
-      type: object
-      properties:
-        classification_systems:
-          type: array
-          items:
-            type: string
-
-    ClassificationSystemDescription:
+    class_system_body:
       type: object
       required:
-        - name
-        - id
         - authority_name
+        - name
         - description
         - version
+      properties:
+        name:
+          type: string
+        authority_name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+
+    classification_system:
+      type: object
+      required:
+        - id
+        - name
+        - links
       properties:
         id:
           type: number
@@ -170,23 +214,48 @@ components:
           type: string
         version:
           type: string
-        classes:
+        styles:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: number
-              name:
-                type: string
+            $ref: "#/components/schemas/link"
+          example:
+            - href: http://data.example.com/buildings
+              rel: item
+              title: Qgis
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/link"
+          example:
+            - href: http://data.example.com/buildings
+              rel: item
 
-    ClassificationSystemClassDescription:
+
+    classification_systems:
+      type: object
+      required:
+        - links
+      properties:
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/link"
+
+    classes:
+      type: object
+      required:
+        - links
+      properties:
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/link"
+
+    classe:
       type: object
       required:
         - name
         - id
-        - description
-        - style
       properties:
         id:
           type: number
@@ -196,31 +265,123 @@ components:
           type: string
         description:
           type: string
-        style:
-          type: string
         parent:
           type: object
-          properties:
-            id:
-              type: number
-            name:
-              type: string
+          items:
+            $ref: "#/components/schemas/classe"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/link"
 
+    mapping:
+      type: object
+      properties:
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/link"
+        description:
+          type: string
+        degree_of_similarity:
+          type: number
 
-    ClassificationSystemMapping:
+    mappings:
       type: array
       items:
-            type: object
-            properties:
-              source_class_id:
-                type: number
-              source_class_name:
-                type: string
-              target_class_id:
-                type: number
-              target_class_name:
-                type: string
-              description:
-                type: string
-              degree_of_similarity:
-                type: number
+        $ref: "#/components/schemas/mapping"
+
+    link:
+      title: Link
+      description: A generic link.
+      type: object
+      required:
+        - href
+        - rel
+      properties:
+        href:
+          type: string
+          format: url
+          example: 'http://www.geoserver.example/stac/naip/child/catalog.json'
+        rel:
+          type: string
+          example: child
+        title:
+          type: string
+          example: Child
+
+    exception:
+      type: object
+      description: >
+        Information about the exception: an error code plus an optional description.
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+
+  responses:
+
+
+    ClassificationSystems:
+      description: >
+        The classsification systems shared by this API.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/classification_systems'
+
+    ClassificationSystem:
+      description: >
+        Information about classification system id `system_id`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/classification_system'
+
+    Classes:
+      description: >
+        The response is a document consisting of classes in the classification system.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/classes'
+
+    Classe:
+      description: >
+        fetch the classe with id `classe_id` in the classification system
+        with id `system_id`
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/classe'
+
+
+    Mappings:
+      description: >
+        fetch the mapping with `system_id_source` and `system_id_target`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/mappings'
+
+    ServerError:
+      description: >
+        A server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/exception'
+        text/html:
+          schema:
+            type: string
+
+    NotFound:
+      description: >
+        The requested URI was not found.
+
+    InvalidParameter:
+      description: >
+        A query parameter has an invalid value.
