@@ -22,7 +22,7 @@ Land Cover Classification System Web Service - Specification
         :target: https://github.com/brazil-data-cube/lccs-ws-spec/releases
         :alt: Release
 
-.. image:: https://badges.gitter.im/brazil-data-cube/community.png
+.. image:: https://badges.gitter.im/brazil-data-cube/community.svg
         :target: https://gitter.im/brazil-data-cube/community#
         :alt: Join the chat
 
