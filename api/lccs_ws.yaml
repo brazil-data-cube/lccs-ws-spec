@@ -39,12 +39,11 @@ paths:
       tags:
        - Classification Systems
       summary: >
-        Create a new classification system. The server chooses 201 the URL of
-        the new resource and returns the new classification system in the
-        response.
+        The server returns 201 in the response. The request was
+        successful and a new classification system was created.
       operationId: postClassSystem
       requestBody:
-        description: "Informations to create classification system"
+        description: "Informations to create a new classification system"
         required: true
         content:
             application/json:
@@ -57,7 +56,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/class_system_body'
-
 
   '/classification_systems/{system_id}':
     parameters:
@@ -95,18 +93,60 @@ paths:
         '200':
           $ref: '#/components/responses/Classes'
 
-  '/classification_systems/{system_id}/classes/{classe_id}':
+    post:
+      tags:
+      - Classes
+      summary: >
+        The server returns 201 in the response. The request was
+        successful and a new class was created.
+      operationId: postClasses
+      parameters:
+        - $ref: '#/components/parameters/system_id'
+      requestBody:
+        description: "Informations to create a new class."
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/class_body'
+      responses:
+        '201':
+          description: "Information of new class"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/class_body'
+
+  '/classification_systems/{system_id}/styles':
+    get:
+      tags:
+        - Styles
+      summary: fetch styles
+      description: >
+        Fetch styles of the classification with id `system_id`.
+      operationId: getStyles
+      parameters:
+        - $ref: '#/components/parameters/system_id'
+      responses:
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '200':
+          $ref: '#/components/responses/Styles'
+
+  '/classification_systems/{system_id}/classes/{class_id}':
     get:
       tags:
         - Classes
-      summary: fetch a single classe
+      summary: fetch a single class.
       description: >
-          Fetch the classe with id `classe_id` in the classification system
-          with id `system_id`.
+          Fetch the classe with id `class_id` in the classification
+          system  with id `system_id`.
       operationId: getClasse
       parameters:
           - $ref: '#/components/parameters/system_id'
-          - $ref: '#/components/parameters/classe_id'
+          - $ref: '#/components/parameters/class_id'
       responses:
         '404':
           $ref: '#/components/responses/NotFound'
@@ -115,13 +155,29 @@ paths:
         '200':
           $ref: '#/components/responses/Classe'
 
+  '/mappings/{system_id_source}':
+    get:
+      tags:
+        - Mappings
+      summary: Retrives avaliable classification systems mappings.
+      operationId: getAvailablesMappings
+      parameters:
+        - $ref: '#/components/parameters/system_id_source'
+      responses:
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '200':
+          $ref: '#/components/responses/Availables_Mappings'
+
   '/mappings/{system_id_source}/{system_id_target}':
     get:
       tags:
         - Mappings
-      summary: Retrives classification systems mappings
+      summary: Retrives classification systems mappings.
       description: Mapping of classification systems.
-      operationId: getMapping
+      operationId: getMappings
       parameters:
         - $ref: '#/components/parameters/system_id_source'
         - $ref: '#/components/parameters/system_id_target'
@@ -149,8 +205,8 @@ components:
       schema:
         type: string
 
-    classe_id:
-      name: classe_id
+    class_id:
+      name: class_id
       in: path
       description: Identifier (name) of a class
       required: true
@@ -197,6 +253,22 @@ components:
         version:
           type: string
 
+    class_body:
+      type: object
+      required:
+        - name
+        - code
+        - description
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+        parent_name:
+          type: string
+
     classification_system:
       type: object
       required:
@@ -219,9 +291,9 @@ components:
           items:
             $ref: "#/components/schemas/link"
           example:
-            - href: http://data.example.com/buildings
+            - href: http://localhost/lccs_ws/system_id/styles/style_format
               rel: item
-              title: Qgis
+              title: Styles
         links:
           type: array
           items:
@@ -229,7 +301,6 @@ components:
           example:
             - href: http://data.example.com/buildings
               rel: item
-
 
     classification_systems:
       type: object
@@ -256,6 +327,7 @@ components:
       required:
         - name
         - id
+        - links
       properties:
         id:
           type: number
@@ -291,8 +363,22 @@ components:
       items:
         $ref: "#/components/schemas/mapping"
 
+    availables_mappings:
+      type: array
+      items:
+        $ref: "#/components/schemas/classification_systems"
+
+    styles:
+      type: object
+      required:
+        - links
+      properties:
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/link"
+
     link:
-      title: Link
       description: A generic link.
       type: object
       required:
@@ -302,7 +388,7 @@ components:
         href:
           type: string
           format: url
-          example: 'http://www.geoserver.example/stac/naip/child/catalog.json'
+          example: 'http://localhost/lccs_ws/classification_system'
         rel:
           type: string
           example: child
@@ -351,13 +437,12 @@ components:
 
     Classe:
       description: >
-        fetch the classe with id `classe_id` in the classification system
+        fetch the classe with id `class_id` in the classification system
         with id `system_id`
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/classe'
-
 
     Mappings:
       description: >
@@ -366,6 +451,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/mappings'
+
+    Availables_Mappings:
+      description: >
+        fetch all mappings availables with `system_id_source`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/availables_mappings'
+
+    Styles:
+      description: >
+        The response is a document consisting of all styles in the classification system.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/styles'
 
     ServerError:
       description: >
