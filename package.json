@@ -1,10 +1,10 @@
 {
-  "name": "lccs_ws-spec",
+  "name": "lccs-ws-spec",
   "version": "0.2.0",
-  "description": "",
+  "description": "Land Cover Classification System Web Service - Specification",
   "main": "index.js",
   "scripts": {
-    "build": "redoc-cli bundle api/lccs_ws.yaml --output dist/index.html"
+    "build": "redoc-cli bundle api/lccs-ws.yaml --output dist/index.html"
   },
   "author": "Fabiana Zioti",
   "license": "MIT",
