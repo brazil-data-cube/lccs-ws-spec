@@ -61,19 +61,10 @@ paths:
             description: Adds a new classification system and returns a consolidated document with unique ids and links.
             operationId: addClassificationSystem
             requestBody:
-                description: A document describing the new classification system.
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ClassificationSystemType'
+                $ref: '#/components/requestBodies/ClassificationSystem'
             responses:
                 '201':
-                    description: A consolidated JSON document with the classification system information.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ClassificationSystemType'
+                    $ref: '#/components/responses/ClassificationSystem'
 
     /classification_systems/{system_id}:
         parameters:
@@ -81,59 +72,65 @@ paths:
         get:
             tags:
                 - Classification Systems
-            summary: >
-                Describe the classification system with id `system_id`
-            description: Returns information of classification system by Id.
+            summary: Describes a given classification system.
+            description: Returns a document with full information about the classification system identified by `system_id`.
             operationId: describeClassificationSystem
             responses:
                 '200':
-                    $ref: '#/components/responses/ClassificationSystem'
+                    $ref: '#/components/responses/ClassificationSystemMetadata'
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
 
     /classification_systems/{system_id}/classes:
+        parameters:
+            - $ref: '#/components/parameters/system_id'
         get:
             tags:
                 - Classes
-            summary: fetch classes
+            summary: Fetch the classes of a given class system.
             description: >
-                Fetch classes of the classification with id `system_id`.
+                Fetch classes of the classification system identified by `system_id`.
             operationId: getClasses
-            parameters:
-                - $ref: '#/components/parameters/system_id'
             responses:
+                '200':
+                    $ref: '#/components/responses/Classes'
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
-                '200':
-                    $ref: '#/components/responses/Classes'
-
         post:
             tags:
                 - Classes
             summary: >
-                The server returns 201 in the response. The request was
-                successful and a new class was created.
-            operationId: postClasses
-            parameters:
-                - $ref: '#/components/parameters/system_id'
+                Add a new land use and cover class to classification system.
+            operationId: addClasses
             requestBody:
-                description: "Informations to create a new class."
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/class_body'
+                $ref: '#/components/requestBodies/Class'
             responses:
                 '201':
-                    description: "Information of new class"
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/class_body'
+                    $ref: '#/components/responses/Class'
+
+    /classification_systems/{system_id}/classes/{class_id}:
+        get:
+            tags:
+                - Classes
+            summary: fetch a single class.
+            description: >
+                Fetch the classe with id `class_id` in the classification
+                system  with id `system_id`.
+            operationId: getClass
+            parameters:
+                -   $ref: '#/components/parameters/system_id'
+                -   $ref: '#/components/parameters/class_id'
+            responses:
+                '200':
+                    $ref: '#/components/responses/ClassMetadata'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/ServerError'
 
     /classification_systems/{system_id}/styles:
         get:
@@ -146,32 +143,12 @@ paths:
             parameters:
                 - $ref: '#/components/parameters/system_id'
             responses:
-                '404':
-                    $ref: '#/components/responses/NotFound'
-                '500':
-                    $ref: '#/components/responses/ServerError'
                 '200':
                     $ref: '#/components/responses/Styles'
-
-    /classification_systems/{system_id}/classes/{class_id}:
-        get:
-            tags:
-                - Classes
-            summary: fetch a single class.
-            description: >
-                Fetch the classe with id `class_id` in the classification
-                system  with id `system_id`.
-            operationId: getClasse
-            parameters:
-                - $ref: '#/components/parameters/system_id'
-                - $ref: '#/components/parameters/class_id'
-            responses:
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
-                '200':
-                    $ref: '#/components/responses/Classe'
 
     /mappings/{system_id_source}:
         get:
@@ -182,12 +159,12 @@ paths:
             parameters:
                 - $ref: '#/components/parameters/system_id_source'
             responses:
+                '200':
+                    $ref: '#/components/responses/AvailableMappings'
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
-                '200':
-                    $ref: '#/components/responses/Availables_Mappings'
 
     /mappings/{system_id_source}/{system_id_target}:
         get:
@@ -200,64 +177,34 @@ paths:
                 - $ref: '#/components/parameters/system_id_source'
                 - $ref: '#/components/parameters/system_id_target'
             responses:
+                '200':
+                    $ref: '#/components/responses/Mappings'
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
-                '200':
-                    $ref: '#/components/responses/Mappings'
 
 components:
 
-    #-------------------------------
-    # Reusable operation parameters
-    #-------------------------------
-
-    parameters:
-
-        system_id:
-            name: system_id
-            in: path
-            description: Identifier (name) of a classification system
-            required: true
-            schema:
-                type: string
-
-        class_id:
-            name: class_id
-            in: path
-            description: Identifier (name) of a class
-            required: true
-            schema:
-                type: string
-
-        system_id_source:
-            name: system_id_source
-            in: path
-            description: Identifier (name) of a source classification system
-            required: true
-            schema:
-                type: string
-
-        system_id_target:
-            name: system_id_target
-            in: path
-            description: Identifier (name) of a target classification system
-            required: true
-            schema:
-                type: string
-
-
-    #-------------------------------
-    # Reusable schemas (data models)
-    #-------------------------------
-
     schemas:
+
+        ClassificationSystemsType:
+            title: A document with the list of land use and and cover classification systems.
+            description: >
+                The name of a classification system is unique and it can be used in successive queries in the system.
+            type: object
+            properties:
+                links:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/LinkType"
+            required:
+                - links
 
         ClassificationSystemType:
             title: Land Use and Cover Classification System
             description: >
-                This type represents a given lan use and cover classification system.
+                This type represents a given land use and cover classification system.
             type: object
             properties:
                 name:
@@ -269,33 +216,13 @@ components:
                 version:
                     type: string
             required:
-                - authority_name
                 - name
                 - description
+                - authority_name
                 - version
 
-        class_body:
+        ClassificationSystemMetadataType:
             type: object
-            required:
-                - name
-                - code
-                - description
-            properties:
-                name:
-                    type: string
-                code:
-                    type: string
-                description:
-                    type: string
-                parent_name:
-                    type: string
-
-        classification_system:
-            type: object
-            required:
-                - id
-                - name
-                - links
             properties:
                 id:
                     type: number
@@ -312,19 +239,25 @@ components:
                     items:
                         $ref: "#/components/schemas/LinkType"
                     example:
-                        - href: http://localhost/lccs_ws/system_id/styles/style_format
-                          rel: item
-                          title: Styles
+                        -   href: http://localhost/lccs/system_id/styles/style_format
+                            rel: item
+                            title: Styles
                 links:
                     type: array
                     items:
                         $ref: "#/components/schemas/LinkType"
                     example:
-                        - href: http://data.example.com/buildings
-                          rel: item
+                        -   href: http://data.example.com/buildings
+                            rel: item
+            required:
+                - id
+                - name
+                - links
 
-        ClassificationSystemsType:
-            title: A document with the list of land use and and cover classification systems.
+        ClassesType:
+            title: Land Use and Cover Classes.
+            description: >
+                Land Use and Cover Classes.
             type: object
             properties:
                 links:
@@ -334,22 +267,29 @@ components:
             required:
                 - links
 
-        classes:
+        ClassType:
+            title: Land Use and Cover Class
+            description: Land Use and Cover Class.
             type: object
-            required:
-                - links
             properties:
-                links:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/LinkType"
-
-        classe:
-            type: object
+                name:
+                    type: string
+                code:
+                    type: string
+                description:
+                    type: string
+                parent_name:
+                    type: string
             required:
                 - name
-                - id
-                - links
+                - code
+                - description
+
+        ClassMetadataType:
+            title: Land Use and Cover Class.
+            description: >
+                Describes a class from a classification system.
+            type: object
             properties:
                 id:
                     type: number
@@ -360,15 +300,27 @@ components:
                 description:
                     type: string
                 parent:
-                    type: object
-                    items:
-                        $ref: "#/components/schemas/classe"
+                    $ref: "#/components/schemas/ClassMetadataType"
                 links:
                     type: array
                     items:
                         $ref: "#/components/schemas/LinkType"
+            required:
+                - id
+                - name
+                - code
 
-        mapping:
+        StylesType:
+            type: object
+            properties:
+                links:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/LinkType"
+            required:
+                - links
+
+        MappingType:
             type: object
             properties:
                 links:
@@ -380,25 +332,10 @@ components:
                 degree_of_similarity:
                     type: number
 
-        mappings:
+        MappingsType:
             type: array
             items:
-                $ref: "#/components/schemas/mapping"
-
-        availables_mappings:
-            type: array
-            items:
-                $ref: "#/components/schemas/ClassificationSystemsType"
-
-        styles:
-            type: object
-            required:
-                - links
-            properties:
-                links:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/LinkType"
+                $ref: "#/components/schemas/MappingType"
 
         LinkType:
             title: Link for related information.
@@ -436,7 +373,7 @@ components:
 
         ClassificationSystems:
             description: >
-                JSON document with the name of land use and and cover classification systems offered by the service.
+                JSON document with the name list of land use and and cover classification systems offered by the service.
             content:
                 application/json:
                     schema:
@@ -444,44 +381,44 @@ components:
 
         ClassificationSystem:
             description: >
-                Information about classification system id `system_id`.
+                A JSON document with the classification system information.
             content:
                 application/json:
                     schema:
-                        $ref: '#/components/schemas/classification_system'
+                        $ref: '#/components/schemas/ClassificationSystemType'
+
+        ClassificationSystemMetadata:
+            description: >
+                JSON document describing the classification system.
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ClassificationSystemMetadataType'
 
         Classes:
             description: >
-                The response is a document consisting of classes in the classification system.
+                A JSON document consisting of a list of land use and cover classes.
             content:
                 application/json:
                     schema:
-                        $ref: '#/components/schemas/classes'
+                        $ref: '#/components/schemas/ClassesType'
 
-        Classe:
+        Class:
+            description: >
+                A JSON document consisting of a land use and cover class.
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ClassType'
+
+        ClassMetadata:
             description: >
                 fetch the classe with id `class_id` in the classification system
                 with id `system_id`
             content:
                 application/json:
                     schema:
-                        $ref: '#/components/schemas/classe'
-
-        Mappings:
-            description: >
-                fetch the mapping with `system_id_source` and `system_id_target`.
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/mappings'
-
-        Availables_Mappings:
-            description: >
-                fetch all mappings availables with `system_id_source`.
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/availables_mappings'
+                        $ref: '#/components/schemas/ClassMetadataType'
 
         Styles:
             description: >
@@ -489,7 +426,23 @@ components:
             content:
                 application/json:
                     schema:
-                        $ref: '#/components/schemas/styles'
+                        $ref: '#/components/schemas/StylesType'
+
+        AvailableMappings:
+            description: >
+                fetch all mappings availables with `system_id_source`.
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/ClassificationSystemsType"
+
+        Mappings:
+            description: >
+                fetch the mapping with `system_id_source` and `system_id_target`.
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/MappingsType'
 
         ServerError:
             description: >
@@ -507,6 +460,64 @@ components:
                 The requested URI was not found.
 
 
+
+
         InvalidParameter:
             description: >
                 A query parameter has an invalid value.
+
+    parameters:
+
+        system_id:
+            name: system_id
+            in: path
+            description: Identifier (name) of a classification system.
+            required: true
+            schema:
+                type: string
+
+        class_id:
+            name: class_id
+            in: path
+            description: Identifier (name) of a class.
+            required: true
+            schema:
+                type: string
+
+        system_id_source:
+            name: system_id_source
+            in: path
+            description: Identifier (name) of a source classification system.
+            required: true
+            schema:
+                type: string
+
+        system_id_target:
+            name: system_id_target
+            in: path
+            description: Identifier (name) of a target classification system.
+            required: true
+            schema:
+                type: string
+
+    requestBodies:
+
+        ClassificationSystem:
+            description: >
+                A document describing the new classification system.
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ClassificationSystemType'
+
+        Class:
+            description: >
+                A land use and cover class to be added to a class system.
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ClassType'
+
+
