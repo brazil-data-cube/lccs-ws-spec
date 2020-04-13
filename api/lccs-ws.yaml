@@ -239,7 +239,7 @@ components:
                     items:
                         $ref: "#/components/schemas/LinkType"
                     example:
-                        -   href: http://localhost/lccs/system_id/styles/style_format
+                        -   href: http://www.esensing.dpi.inpe.br/lccs/system_id/styles/style_format
                             rel: item
                             title: Styles
                 links:
@@ -247,8 +247,14 @@ components:
                     items:
                         $ref: "#/components/schemas/LinkType"
                     example:
-                        -   href: http://data.example.com/buildings
-                            rel: item
+                        -   href: http://www.esensing.dpi.inpe.br/lccs/classification_systems/system_id
+                            rel: self
+                        -   href: http://www.esensing.dpi.inpe.br/lccs/classification_systems/system_id/classes
+                            rel: classes
+                        -   href: http://www.esensing.dpi.inpe.br/lccs/classification_systems
+                            rel: parent
+                        -   href: http://www.esensing.dpi.inpe.br/lccs/
+                            rel: root
             required:
                 - id
                 - name
@@ -345,7 +351,7 @@ components:
                 href:
                     type: string
                     format: url
-                    example: 'http://localhost/lccs_ws/classification_system'
+                    example: 'http://www.esensing.dpi.inpe.br/lccs/classification_systems/system_id/classes'
                 rel:
                     type: string
                     example: child
