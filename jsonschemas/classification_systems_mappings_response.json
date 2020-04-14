@@ -1,10 +1,32 @@
 {
-  "definitions": {},
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "localhost/lccs_ws/classification_systems_mappings_response.json",
   "type": "object",
   "title": "LCCS-WS - Classification Systems Mappings operation",
   "description": "Retrieves list of offered classification systems mappings",
+  "definitions": {
+    "link": {
+      "type": "object",
+      "required": [
+        "rel",
+        "href"
+      ],
+      "properties": {
+        "href": {
+          "title": "Link reference",
+          "type": "string"
+        },
+        "rel": {
+          "title": "Link relation type",
+          "type": "string"
+        },
+        "title": {
+          "title": "Link title",
+          "type": "string"
+        }
+      }
+    }
+  },
   "required": [
     "mappings"
   ],
@@ -20,50 +42,17 @@
         "title": "Classification Systems Mapping Items",
         "description": "List of Classification Systems Classes Mappings",
         "required": [
-          "source_class_id",
-          "source_class_name",
-          "target_class_id",
-          "target_class_name",
+          "links",
           "description",
           "degree_of_similarity"
         ],
         "properties":{
-          "source_class_id":{
-            "$id": "#/properties/mappings/items/properties/source_class_id",
-            "type": "number",
-            "title": "Source Class Identificator",
-            "default": "",
-            "examples": [
-              2
-            ]
-          },
-          "source_class_name":{
-            "$id": "#/properties/mappings/items/properties/source_class_name",
-            "type": "string",
-            "title": "Source Class Name",
-            "default": "",
-            "examples": [
-              "Floresta Primária"
-            ]
-
-          },
-          "target_class_id":{
-            "$id": "#/properties/mappings/items/properties/target_class_id",
-            "type": "number",
-            "title": "Target Class Identificator",
-            "default": "",
-            "examples": [
-              3
-            ]
-          },
-          "target_class_name":{
-            "$id": "#/properties/mappings/items/properties/target_class_name",
-            "type": "string",
-            "title": "Target Class Name",
-            "default": "",
-            "examples": [
-              "Floresta"
-            ]
+          "links": {
+            "title": "Links",
+            "type": "array",
+            "items": {
+                  "$ref": "#/definitions/link"
+            }
           },
           "description":{
             "$id": "#/properties/mappings/items/properties/description",
