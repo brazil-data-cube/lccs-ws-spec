@@ -1,25 +1,46 @@
 {
-  "definitions": {},
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "localhost/lccs_ws/<name>.json",
+  "$id": "classification_system_name_response.json#",
+  "definitions": {
+    "link": {
+      "type": "object",
+      "required": [
+        "rel",
+        "href"
+      ],
+      "properties": {
+        "href": {
+          "title": "Link reference",
+          "type": "string"
+        },
+        "rel": {
+          "title": "Link relation type",
+          "type": "string"
+        },
+        "title": {
+          "title": "Link title",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "title": "Classification System Description",
   "type": "object",
-  "title": "LCCS-WS - Classification System Medata operation",
   "required": [
-    "id",
+    "links",
+    "description",
     "name",
     "authority_name",
-    "description",
-    "version"
+    "version",
+    "style"
   ],
   "properties": {
-    "id":{
-      "$id": "#/properties/id",
-      "type": "number",
-      "title": "The Classification System identificator",
-      "default": "",
-      "examples": [
-            1
-      ]
+    "links": {
+      "title": "Links",
+      "type": "array",
+      "items": {
+            "$ref": "#/definitions/link"
+      }
     },
     "name": {
       "$id": "#/properties/name",
@@ -50,51 +71,12 @@
     } ,
     "version":{
       "$id": "#/properties/version",
-      "type": "number",
+      "type": "string",
       "title": "The Classification System Version",
       "default": "",
       "examples": [
-            2
+            "1.0"
       ]
-    },
-    "classes": {
-      "$id": "#/properties/class",
-      "type": "array",
-      "title": "Classes of Classification System",
-      "description": "Defines list of classification system classes from server",
-      "default": false,
-      "items": {
-        "$id": "#/properties/class/items",
-        "type": "string",
-        "title": "Classification System Class Schema",
-        "description": "Classification System Class Identifier",
-        "required": [
-          "id",
-          "name"
-        ],
-        "properties":{
-          "id":{
-            "$id": "#/properties/class/items/properties/id",
-            "type": "number",
-            "title": "Class identificator",
-            "default": "",
-            "examples": [
-              2
-            ]
-          },
-          "name":{
-            "$id": "#/properties/class/items/properties/name",
-            "type": "string",
-            "title": "Class Name",
-            "default": "",
-            "examples": [
-              "Floresta"
-            ]
-          }
-        }
-      }
     }
-
-
   }
 }
