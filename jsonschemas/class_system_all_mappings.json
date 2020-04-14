@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "class_systems.json#",
+  "$id": "class_systems_all_mappings.json#",
   "definitions": {
     "link": {
       "type": "object",
@@ -24,7 +24,7 @@
       }
     }
   },
-  "title": "Classification Systems",
+  "title": "Classification Systems Mappins Avaliables",
   "type": "object",
   "required": [
     "links"
