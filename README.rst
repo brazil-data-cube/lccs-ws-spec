@@ -11,7 +11,7 @@ Land Cover Classification System Web Service - Specification
 ============================================================
 
 .. image:: https://img.shields.io/badge/license-MIT-green
-        :target: https://github.com//brazil-data-cube/lccs-ws-spec/blob/v0.2.0/LICENSE
+        :target: https://github.com//brazil-data-cube/lccs-ws-spec/blob/b-0.2/LICENSE
         :alt: Software License
 
 .. image:: https://img.shields.io/badge/lifecycle-experimental-orange.svg
