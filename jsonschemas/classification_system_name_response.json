@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "class_system.json#",
+  "$id": "classification_system_name_response.json#",
   "definitions": {
     "link": {
       "type": "object",
