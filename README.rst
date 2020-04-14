@@ -29,13 +29,13 @@ Land Cover Classification System Web Service - Specification
 About
 =====
 
-Atualmente existem diversos conjuntos de dados em escalas regionais, nacionais e globais com informação sobre uso e cobertura da terra que visam atender a um grande número de aplicações, entre elas a gestão de recursos naturais, mudanças do clima e seus impactos e conservação da biodiversidade. Esses produtos de dados são gerados utilizando diferentes abordagens e metodologias, que apresentam informações sobre diferentes classes da superfície da terra, como florestas, plantações agrícolas, entre outras. As iniciativas que geram mapas de uso e cobertura da terra, normalmente desenvolvem seu próprio sistema de classificação, com diferentes nomenclaturas e significados das classes utilizadas.
+Currently, there are several data sets on regional, national and global scales with information on land use and land cover that aim to support a large number of applications, including the management of natural resources, climate change and its impacts, and biodiversity conservation. These data products are generated using different approaches and methodologies, which present information about different classes of the earth's surface, such as forests, agricultural plantations, among others. Initiatives that generate land use and land cover maps normally develop their own classification system, with different nomenclatures and meanings of the classes used.
 
 
-Neste contexto, o **LCCS-WS** (**L**\ and **C**\ over **C**\ lassification **S**\ystem **W**\eb **S**\ ervice) tem como objetivo fornecer uma interface simples para acesso aos diversos sistemas de classificação em uso e suas respectivas classes. Portanto, esse serviço propõe uma representação para os sistemas de classificação e disponibiliza uma API para acesso às classes e suas simbolizações. Também é possível consultar mapeamentos entre classes de diferentes sistemas.
+In this context, the **LCCS-WS** (**L**\ and **C**\ over **C**\ lassification **S**\ystem **W**\eb **S**\ ervice) aims to provide a simple interface to access the various classification systems in use and their respective classes. Therefore, this service proposes a representation for the classification systems and provides an API to access the classes and their symbolizations. It is also possible to stablish mappings between classes of different systems.
 
 
-Implementações baseadas em código aberto deste serviço encontram-se nos repositórios `lccs-ws <https://github.com/brazil-data-cube/lccs-ws>`_ (servidor) e `lccs.py <https://github.com/brazil-data-cube/lccs.py>`_ (cliente Python). Veja também o serviço **W**\eb **L**\and **T**\rajectory **S**\ystem (`WLTS <https://github.com/brazil-data-cube/wlts-spec>`_), que utiliza o LCCS-WS para representação das classes associadas às feições recuperadas em suas consultas.
+Free and Open Source implementations based on this service can be found in the `lccs-ws <https://github.com/brazil-data-cube/lccs-ws>`_ (server) and `lccs.py <https://github.com/brazil-data-cube/lccs.py>`_ (Python client). See also the service **W**\eb **L**\and **T**\rajectory **S**\ystem (`WLTS <https://github.com/brazil-data-cube/wlts-spec>`_), which uses LCCS-WS to represent the classes associated with the features retrieved in its queries.
 
 
 Repository Organization
@@ -44,12 +44,6 @@ Repository Organization
 - `api <./api>`_: LCCS Specification using `OpenAPI 3.0 <https://github.com/OAI/OpenAPI-Specification>`_.
 
 - `jsonschemas <./jsonschemas>`_: `JSON Schema <https://json-schema.org/>`_ for the classification systems and classes.
-
-
-Overview of Service Operations
-==============================
-
-**TO BE DONE**
 
 
 Building the Documentation
