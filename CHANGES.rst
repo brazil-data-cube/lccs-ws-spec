@@ -10,11 +10,14 @@
 Changes
 =======
 
+Version 0.4.0 (2020-12-11)
+--------------------------
 
-Version 0.2.0
--------------
+- Review the OpenAPI definition (`#16 <https://github.com/brazil-data-cube/lccs-ws-spec/issues/16>`_).
+- Improve documentation (`#7 <https://github.com/brazil-data-cube/lccs-ws-spec/issues/7>`_).
 
-Released 2020-04-12
+Version 0.2.0 (2020-04-12)
+--------------------------
 
 - Basic OpenAPI 3.0 specification.
 
