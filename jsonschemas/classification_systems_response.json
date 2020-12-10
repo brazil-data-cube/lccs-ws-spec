@@ -1,6 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "class_systems_response.json#",
+  "title": "Classification Systems",
+  "type": "object",
+  "required": [
+    "links"
+  ],
   "definitions": {
     "link": {
       "type": "object",
@@ -24,11 +29,6 @@
       }
     }
   },
-  "title": "Classification Systems",
-  "type": "object",
-  "required": [
-    "links"
-  ],
   "properties": {
     "links": {
       "title": "Links",

@@ -31,9 +31,10 @@
     "description",
     "name",
     "code",
-    "parent",
+    "class_parent",
     "id",
-    "classification_system"
+    "classification_system_name",
+    "classification_system_id"
   ],
   "properties": {
     "links": {
@@ -75,17 +76,44 @@
     "description": {
       "$id": "#/properties/description",
       "type": "string",
-      "title": "The Description of Classification System",
+      "title": "The Description of Class",
       "default": "",
       "pattern": "^(.*)$"
     } ,
     "version":{
       "$id": "#/properties/version",
       "type": "string",
-      "title": "The Classification System Version",
+      "title": "The Class Version",
       "default": "",
       "examples": [
             "1.0"
+      ]
+    },
+    "class_parent": {
+      "$id": "#/properties/class_parent",
+      "type": "string",
+      "title": "The Class Parent Name",
+      "default": "",
+      "examples": [
+            "Floresta"
+      ]
+    },
+    "classification_system_name": {
+      "$id": "#/properties/classification_system_name",
+      "type": "string",
+      "title": "The Classification System name of a Class",
+      "default": "",
+      "examples": [
+            "PRODES"
+      ]
+    },
+    "classification_system_id": {
+      "$id": "#/properties/classification_system_name",
+      "type": "number",
+      "title": "The Classification System id of a Class",
+      "default": "",
+      "examples": [
+            1
       ]
     }
   }
