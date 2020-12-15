@@ -1,6 +1,6 @@
 {
   "name": "lccs-ws-spec",
-  "version": "0.4.0-0",
+  "version": "0.6.0-0",
   "description": "Land Cover Classification System Web Service - Specification",
   "main": "index.js",
   "scripts": {
