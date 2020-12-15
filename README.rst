@@ -1,6 +1,6 @@
 ..
     This file is part of Land Cover Classification System Web Service Specification.
-    Copyright (C) 2019 INPE.
+    Copyright (C) 2019-2020 INPE.
 
     Land Cover Classification System Web Service Specification is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
@@ -14,17 +14,17 @@ Land Cover Classification System Web Service - Specification
         :target: https://github.com//brazil-data-cube/lccs-ws-spec/blob/master/LICENSE
         :alt: Software License
 
-.. image:: https://img.shields.io/badge/lifecycle-experimental-orange.svg
-        :target: https://www.tidyverse.org/lifecycle/#experimental
+.. image:: https://img.shields.io/badge/lifecycle-maturing-blue.svg
+        :target: https://www.tidyverse.org/lifecycle/#maturing
         :alt: Software Life Cycle
 
 .. image:: https://img.shields.io/github/tag/brazil-data-cube/lccs-ws-spec.svg
         :target: https://github.com/brazil-data-cube/lccs-ws-spec/releases
         :alt: Release
 
-.. image:: https://badges.gitter.im/brazil-data-cube/community.svg/
-        :target: https://gitter.im/brazil-data-cube/community#
-        :alt: Join the chat
+.. image:: https://img.shields.io/discord/689541907621085198?logo=discord&logoColor=ffffff&color=7389D8
+        :target: https://discord.com/channels/689541907621085198#
+        :alt: Join us at Discord
 
 About
 =====
@@ -45,6 +45,25 @@ Repository Organization
 
 - `jsonschemas <./jsonschemas>`_: `JSON Schema <https://json-schema.org/>`_ for the classification systems and classes.
 
+
+Overview of Service Operations
+==============================
+
+- The ``/classification_systems`` operation when queried with a ``GET`` method returns the list of land use and cover classification systems available in the service. A ``POST`` request on this route allow the client to add a new classification system.
+
+- The ``/classification_systems/{system_id}`` operation when queried with a ``GET`` method returns a document with full information about the classification system.
+
+- The ``/classification_systems/{system_id}/classes`` operation when queried with a ``GET`` method returns the list of classes from a classification system.
+
+- The ``/classification_systems/{system_id}/classes/{class_id}`` operation when queried with a ``GET`` method returns information about a class from a classification system
+
+- The ``/classification_systems/{system_id}/styles`` operation when queried with a ``GET`` method returns the list of styles of the classification.
+
+- The ``/classification_system/{system_id}/styles/{style_id}`` operation when queried with a ``GET`` method returns a document with the style of the classification system.
+
+- The ``/mappings/{system_id_source}`` operation when queried with a ``GET`` method returns a list of available mappings for the classification system.
+
+- The ``/mappings/{system_id_source}/{system_id_target}``: operation when queried with a ``GET`` method returns the mapping between the classification systems. A ``POST`` request on this route allow the client to add a new mapping.
 
 Building the Documentation
 ==========================
@@ -89,7 +108,7 @@ License
 =======
 
 .. admonition::
-    Copyright (C) 2019 INPE.
+    Copyright (C) 2019-2020 INPE.
 
     Land Cover Classification System Web Service is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.

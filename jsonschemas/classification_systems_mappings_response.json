@@ -44,7 +44,11 @@
         "required": [
           "links",
           "description",
-          "degree_of_similarity"
+          "degree_of_similarity",
+          "source",
+          "source_id",
+          "target",
+          "target_id"
         ],
         "properties":{
           "links": {
@@ -68,8 +72,43 @@
             "examples": [
               0.2
             ]
+          },
+          "source": {
+            "$id": "#/properties/mappings/items/properties/source",
+            "type": "string",
+            "title": "The Classe source of a mapping",
+            "default": "",
+            "examples": [
+              "Floresta Primária"
+            ]
+          },
+          "source_id": {
+            "$id": "#/properties/mappings/items/properties/source_id",
+            "type": "number",
+            "title": "The id of source Class",
+            "default": "",
+            "examples": [
+              2
+            ]
+          },
+          "target": {
+            "$id": "#/properties/mappings/items/properties/source",
+            "type": "string",
+            "title": "The Classe target of a mapping",
+            "default": "",
+            "examples": [
+              "Floresta"
+            ]
+          },
+          "target_id": {
+            "$id": "#/properties/mappings/items/properties/target_id",
+            "type": "number",
+            "title": "The id of target Class",
+            "default": "",
+            "examples": [
+              21
+            ]
           }
-
         }
       }
     }

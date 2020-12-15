@@ -42,6 +42,18 @@ servers:
 
 paths:
 
+    /:
+        get:
+            tags:
+                - Root
+            summary: Returns the root LCCS-WS that is the entry point for users to browse.
+            operationId: getRoot
+            responses:
+                '200':
+                    $ref: '#/components/responses/Root'
+                '500':
+                    $ref: '#/components/responses/ServerError'
+
     /classification_systems:
         get:
             tags:
@@ -100,17 +112,6 @@ paths:
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
-        post:
-            tags:
-                - Classes
-            summary: >
-                Add a new land use and cover class to classification system.
-            operationId: addClasses
-            requestBody:
-                $ref: '#/components/requestBodies/Class'
-            responses:
-                '201':
-                    $ref: '#/components/responses/Class'
 
     /classification_systems/{system_id}/classes/{class_id}:
         get:
@@ -150,11 +151,44 @@ paths:
                 '500':
                     $ref: '#/components/responses/ServerError'
 
+        post:
+            tags:
+                - Styles
+            summary: Add a new style.
+            description: Adds a new style and returns a messagem.
+            operationId: postMapping
+            parameters:
+                - $ref: '#/components/parameters/system_id'
+            requestBody:
+                $ref: '#/components/requestBodies/Style'
+            responses:
+                '201':
+                    $ref: '#/components/responses/StyleMessage'
+
+    /classification_system/{system_id}/styles/{style_id}:
+        get:
+            tags:
+                - Styles
+            summary: fetch style
+            description: >
+                Fetch style of the classification with id `system_id`.
+            operationId: getStyle
+            parameters:
+                - $ref: '#/components/parameters/system_id'
+                - $ref: '#/components/parameters/style_id'
+            responses:
+                '200':
+                    $ref: '#/components/responses/Style'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/ServerError'
+
     /mappings/{system_id_source}:
         get:
             tags:
                 - Mappings
-            summary: Retrives avaliable classification systems mappings.
+            summary: Retrives available classification systems mappings.
             operationId: getAvailablesMappings
             parameters:
                 - $ref: '#/components/parameters/system_id_source'
@@ -183,10 +217,38 @@ paths:
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
+        post:
+            tags:
+                - Mappings
+            summary: Add a new classification system mapping.
+            description: Adds a new classification system mapping and returns a document with the mapping.
+            operationId: addMapping
+            parameters:
+                - $ref: '#/components/parameters/system_id_source'
+                - $ref: '#/components/parameters/system_id_target'
+            requestBody:
+                $ref: '#/components/requestBodies/Mappings'
+            responses:
+                '201':
+                    $ref: '#/components/responses/Mappings'
+
 
 components:
 
     schemas:
+
+        RootType:
+            title: The landing page provides links to the API definition. Links to the classification systems endpoint.
+            description: >
+                Provides link to the classification system.
+            type: object
+            properties:
+                links:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/LinkType"
+            required:
+                - links
 
         ClassificationSystemsType:
             title: A document with the list of land use and and cover classification systems.
@@ -194,10 +256,10 @@ components:
                 The name of a classification system is unique and it can be used in successive queries in the system.
             type: object
             properties:
-                links:
+                classification_systems:
                     type: array
                     items:
-                        $ref: "#/components/schemas/LinkType"
+                        $ref: "#/components/schemas/ClassificationSystemMetadataType"
             required:
                 - links
 
@@ -234,14 +296,6 @@ components:
                     type: string
                 version:
                     type: string
-                styles:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/LinkType"
-                    example:
-                        -   href: http://www.esensing.dpi.inpe.br/lccs/system_id/styles/style_format
-                            rel: item
-                            title: Styles
                 links:
                     type: array
                     items:
@@ -305,8 +359,12 @@ components:
                     type: string
                 description:
                     type: string
-                parent:
-                    $ref: "#/components/schemas/ClassMetadataType"
+                class_parent:
+                    type: string
+                classification_system_name:
+                    type: string
+                classification_system_id:
+                    type: number
                 links:
                     type: array
                     items:
@@ -315,6 +373,7 @@ components:
                 - id
                 - name
                 - code
+                - links
 
         StylesType:
             type: object
@@ -329,19 +388,31 @@ components:
         MappingType:
             type: object
             properties:
+                degree_of_similarity:
+                    type: number
+                description:
+                    type: string
+                source:
+                    type: string
+                source_id:
+                    type: number
+                target:
+                    type: string
+                target_id:
+                    type: number
                 links:
                     type: array
                     items:
                         $ref: "#/components/schemas/LinkType"
-                description:
-                    type: string
-                degree_of_similarity:
-                    type: number
+
 
         MappingsType:
-            type: array
-            items:
-                $ref: "#/components/schemas/MappingType"
+            type: object
+            properties:
+                mapping:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/MappingType"
 
         LinkType:
             title: Link for related information.
@@ -376,6 +447,14 @@ components:
                 - code
 
     responses:
+
+        Root:
+            description: >
+                The landing page provides links to the classification systems
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/RootType'
 
         ClassificationSystems:
             description: >
@@ -434,13 +513,22 @@ components:
                     schema:
                         $ref: '#/components/schemas/StylesType'
 
+        Style:
+            description: >
+                The response is a document with the style of the classification system.
+            content:
+                application/octet-stream:
+                    schema:
+                        type: string
+                        format: binary
+
         AvailableMappings:
             description: >
-                fetch all mappings availables with `system_id_source`.
+                fetch all mappings available with `system_id_source`.
             content:
                 application/json:
                     schema:
-                        $ref: "#/components/schemas/ClassificationSystemsType"
+                        $ref: "#/components/schemas/StylesType"
 
         Mappings:
             description: >
@@ -465,12 +553,13 @@ components:
             description: >
                 The requested URI was not found.
 
-
-
-
         InvalidParameter:
             description: >
                 A query parameter has an invalid value.
+
+        StyleMessage:
+            description: >
+                Classification System Style Inserted.
 
     parameters:
 
@@ -506,6 +595,14 @@ components:
             schema:
                 type: string
 
+        style_id:
+            name: style_id
+            in: path
+            description: Identifier (name) of style format.
+            required: true
+            schema:
+                type: string
+
     requestBodies:
 
         ClassificationSystem:
@@ -513,9 +610,21 @@ components:
                 A document describing the new classification system.
             required: true
             content:
-                application/json:
+                multipart/form-data:
                     schema:
-                        $ref: '#/components/schemas/ClassificationSystemType'
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            authority_name:
+                                type: string
+                            description:
+                                type: string
+                            version:
+                                type: string
+                            classes:
+                                type: string
+                                format: binary
 
         Class:
             description: >
@@ -526,4 +635,30 @@ components:
                     schema:
                         $ref: '#/components/schemas/ClassType'
 
+        Mappings:
+            description: >
+                A document describing the new classification system.
+            required: true
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            mappings:
+                                type: string
+                                format: binary
 
+        Style:
+            description: >
+                A document describing the new style of classification system.
+            required: true
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            style_format:
+                                type: string
+                            style:
+                                type: string
+                                format: binary

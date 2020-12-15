@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "class_system_classes.json#",
-  "title": "Classification System Classes List",
+  "$id": "styles.json#",
+  "title": "Styles",
   "type": "object",
   "required": [
     "links"
