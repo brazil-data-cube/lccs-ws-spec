@@ -163,7 +163,7 @@ paths:
                 $ref: '#/components/requestBodies/Style'
             responses:
                 '201':
-                    $ref: '#/components/responses/StyleMenssagem'
+                    $ref: '#/components/responses/StyleMessage'
 
     /classification_system/{system_id}/styles/{style_id}:
         get:
@@ -557,7 +557,7 @@ components:
             description: >
                 A query parameter has an invalid value.
 
-        StyleMenssagem:
+        StyleMessage:
             description: >
                 Classification System Style Inserted.
 
