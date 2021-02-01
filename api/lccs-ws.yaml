@@ -70,7 +70,7 @@ paths:
             tags:
                 - Classification Systems
             summary: Add a new classification system.
-            description: Adds a new classification system and returns a consolidated document with unique ids and links.
+            description: Adds a new classification system and returns informations about the new classification system.
             operationId: addClassificationSystem
             requestBody:
                 $ref: '#/components/requestBodies/ClassificationSystem'
@@ -94,6 +94,32 @@ paths:
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
+        put:
+            tags:
+                - Classification Systems
+            summary: Update a given classification system.
+            description: Updates an existing rating system and returns information about it.
+            operationId: updateClassificationSystem
+            requestBody:
+                $ref: '#/components/requestBodies/ClassificationSystem'
+            responses:
+                '200':
+                    $ref: '#/components/responses/ClassificationSystemMetadata'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+
+        delete:
+            tags:
+                - Classification Systems
+            summary: Delete a classification system.
+            description: Delete a classification system.
+            operationId: deleteClassificationSystem
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                  description: Delete
+
 
     /classification_systems/{system_id}/classes:
         parameters:
@@ -557,6 +583,12 @@ components:
             description: >
                 A query parameter has an invalid value.
 
+
+        BadRequest:
+            description: >
+                Server was unable to process the request .
+
+
         StyleMessage:
             description: >
                 Classification System Style Inserted.
@@ -610,7 +642,7 @@ components:
                 A document describing the new classification system.
             required: true
             content:
-                multipart/form-data:
+                application/json:
                     schema:
                         type: object
                         properties:
@@ -622,9 +654,6 @@ components:
                                 type: string
                             version:
                                 type: string
-                            classes:
-                                type: string
-                                format: binary
 
         Class:
             description: >
