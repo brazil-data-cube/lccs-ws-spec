@@ -58,7 +58,7 @@ paths:
         get:
             tags:
                 - Classification Systems
-            summary: List of Classification Systems.
+            summary: List of classification systems.
             description: Retrieves the list of names of all available land use and and cover classification systems in the service.
             operationId: getClassificationSystems
             responses:
@@ -127,7 +127,7 @@ paths:
         get:
             tags:
                 - Classes
-            summary: Fetch the classes of a given class system.
+            summary: Fetch the classes of a given classification system.
             description: >
                 Fetch classes of the classification system identified by `system_id`.
             operationId: getClasses
@@ -138,6 +138,47 @@ paths:
                     $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'
+
+        post:
+            tags:
+                - Classes
+            summary: Adds one or more new classes to a classification system.
+            description: Adds one or more new classes to a classification system.
+            operationId: addClasses
+            requestBody:
+                $ref: '#/components/requestBodies/Classes'
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                  description: Created
+
+        put:
+            tags:
+                - Classes
+            summary: Update classes of a classification system.
+            description: Updates one or more classes of an existing classification system.
+            operationId: updateClasses
+            requestBody:
+                $ref: '#/components/requestBodies/Classes'
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                  description: Updated
+
+        delete:
+            tags:
+                - Classes
+            summary: Delete classes.
+            description: Delete all classes of an classification system.
+            operationId: deleteClasses
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                  description: Deleted
+
 
     /classification_systems/{system_id}/classes/{class_id}:
         get:
@@ -154,6 +195,39 @@ paths:
             responses:
                 '200':
                     $ref: '#/components/responses/ClassMetadata'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/ServerError'
+        delete:
+            tags:
+                - Classes
+            summary: Delete a single class.
+            description: Delete a single class of an classification system.
+            operationId: deleteClass
+            parameters:
+                -   $ref: '#/components/parameters/system_id'
+                -   $ref: '#/components/parameters/class_id'
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                  description: Deleted
+
+
+    /classification_systems/style_formats:
+        get:
+            tags:
+                - Styles
+            summary: fetch style formats
+            description: >
+                Fetch style formats available in service.
+            operationId: getStyleFormat
+            parameters:
+                - $ref: '#/components/parameters/system_id'
+            responses:
+                '200':
+                    $ref: '#/components/responses/StyleFormats'
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '500':
@@ -401,6 +475,21 @@ components:
                 - code
                 - links
 
+        StyleFormatsType:
+            title: Style Formats type.
+            description: >
+                Describes a style formats.
+            type: object
+            properties:
+                styles_formats:
+                    type: array
+                    items:
+                      type: string
+                links:
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/LinkType"
+
         StylesType:
             type: object
             properties:
@@ -531,6 +620,14 @@ components:
                     schema:
                         $ref: '#/components/schemas/ClassMetadataType'
 
+        StyleFormats:
+            description: >
+                The respose is a document consisting of all style formats available in service.
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/StyleFormatsType'
+
         Styles:
             description: >
                 The response is a document consisting of all styles in the classification system.
@@ -654,6 +751,20 @@ components:
                                 type: string
                             version:
                                 type: string
+
+        Classes:
+            description: >
+                A file that describes the new classes of a classification system.
+            required: true
+            content:
+                multipart/form-data:
+                  schema:
+                        type: object
+                        properties:
+                            classes:
+                                type: string
+                                format: binary
+
 
         Class:
             description: >
