@@ -26,7 +26,7 @@ info:
         name: MIT
         url: https://opensource.org/licenses/MIT
 
-    version: '0.4.0'
+    version: '0.6.0-0'
 
     x-logo:
         url: '../img/bdc-logo.png'
@@ -118,7 +118,7 @@ paths:
                 '400':
                     $ref: '#/components/responses/BadRequest'
                 '200':
-                  description: Delete
+                    $ref: '#/components/responses/DeletedMessage'
 
 
     /classification_systems/{system_id}/classes:
@@ -186,7 +186,7 @@ paths:
                 - Classes
             summary: fetch a single class.
             description: >
-                Fetch the classe with id `class_id` in the classification
+                Fetch the classes with id `class_id` in the classification
                 system  with id `system_id`.
             operationId: getClass
             parameters:
@@ -255,7 +255,7 @@ paths:
             tags:
                 - Styles
             summary: Add a new style.
-            description: Adds a new style and returns a messagem.
+            description: Adds a new style and returns a message.
             operationId: postMapping
             parameters:
                 - $ref: '#/components/parameters/system_id'
@@ -347,6 +347,38 @@ paths:
                 '201':
                     $ref: '#/components/responses/Mappings'
 
+        put:
+            tags:
+                - Mappings
+            summary: Update classes of a classification system mapping.
+            description: Updates one or more class of an existing classification system mapping.
+            operationId: updateMappings
+            parameters:
+                - $ref: '#/components/parameters/system_id_source'
+                - $ref: '#/components/parameters/system_id_target'
+            requestBody:
+                $ref: '#/components/requestBodies/Mappings'
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                  $ref: '#/components/responses/UpdatedMessage'
+
+        delete:
+            tags:
+                - Mappings
+            summary: Delete a classification system mapping.
+            description: >
+              Delete a mapping exist between classification systems.
+            operationId: deleteMapping
+            parameters:
+                - $ref: '#/components/parameters/system_id_source'
+                - $ref: '#/components/parameters/system_id_target'
+            responses:
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '200':
+                    $ref: '#/components/responses/DeletedMessage'
 
 components:
 
@@ -515,6 +547,17 @@ components:
             required:
                 - links
 
+        AvailableMappingsType:
+            type: object
+            properties:
+                links:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/LinkType"
+            required:
+                - links
+
+
         MappingType:
             type: object
             properties:
@@ -522,13 +565,13 @@ components:
                     type: number
                 description:
                     type: string
-                source:
+                class_source:
                     type: string
-                source_id:
+                class_source_id:
                     type: number
-                target:
+                class_target:
                     type: string
-                target_id:
+                class_target_id:
                     type: number
                 links:
                     type: array
@@ -637,7 +680,7 @@ components:
 
         StyleFormats:
             description: >
-                The respose is a document consisting of all style formats available in service.
+                The response is a document consisting of all style formats available in service.
             content:
                 application/json:
                     schema:
@@ -666,7 +709,7 @@ components:
             content:
                 application/json:
                     schema:
-                        $ref: "#/components/schemas/StylesType"
+                        $ref: "#/components/schemas/AvailableMappingsType"
 
         Mappings:
             description: >
@@ -802,7 +845,7 @@ components:
 
         Mappings:
             description: >
-                A document describing the new classification system.
+                A document describing the classification system mapping.
             required: true
             content:
                 multipart/form-data:
