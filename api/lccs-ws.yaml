@@ -98,6 +98,8 @@ paths:
               $ref: '#/components/responses/ClassificationSystem'
           '400':
               $ref: '#/components/responses/InvalidParameter'
+          '404':
+              $ref: '#/components/responses/NotFound'
           '500':
               $ref: '#/components/responses/ServerError'
 
@@ -108,10 +110,12 @@ paths:
       description: 'Delete a classification system.'
       operationId: deleteClassificationSystem
       responses:
-          '200':
+          '204':
               $ref: '#/components/responses/DeleteMessage'
           '400':
               $ref: '#/components/responses/InvalidParameter'
+          '404':
+              $ref: '#/components/responses/NotFound'
           '500':
               $ref: '#/components/responses/ServerError'
 
@@ -145,6 +149,8 @@ paths:
           $ref: '#/components/responses/Classes'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -153,7 +159,7 @@ paths:
       tags:
         - Classes
       summary: Fetch a single class.
-      description: 'Fetch the classe with id `class_id` in the classification systemwith id `system_id`.'
+      description: 'Fetch the classe with id `class_id` in the classification system with id `system_id`.'
       operationId: getClass
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -182,6 +188,8 @@ paths:
           $ref: '#/components/responses/ClassMetadata'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -195,10 +203,12 @@ paths:
         - $ref: '#/components/parameters/system_id'
         - $ref: '#/components/parameters/class_id'
       responses:
-        '200':
+        '204':
           $ref: '#/components/responses/DeleteMessage'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -249,6 +259,8 @@ paths:
           $ref: '#/components/responses/StyleFormat'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -261,10 +273,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/style_format_id'
       responses:
-        '200':
+        '204':
           $ref: '#/components/responses/DeleteMessage'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -288,7 +302,7 @@ paths:
       tags:
         - Styles
       summary: Add a new style.
-      description: 'Adds a new style and returns a messagem.'
+      description: 'Adds a new style and returns a message.'
       operationId: postMapping
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -338,6 +352,8 @@ paths:
           $ref: '#/components/responses/StyleLinks'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -351,10 +367,12 @@ paths:
           - $ref: '#/components/parameters/system_id'
           - $ref: '#/components/parameters/style_format_id'
       responses:
-        '200':
+        '204':
           $ref: '#/components/responses/DeleteMessage'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -392,6 +410,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
     post:
       tags:
         - Mappings
@@ -406,6 +425,12 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Mappings'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
     put:
       tags:
@@ -423,6 +448,8 @@ paths:
           $ref: '#/components/responses/Mappings'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -436,10 +463,12 @@ paths:
           - $ref: '#/components/parameters/system_id_source'
           - $ref: '#/components/parameters/system_id_target'
       responses:
-        '200':
+        '204':
           $ref: '#/components/responses/DeleteMessage'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
