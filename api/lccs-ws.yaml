@@ -46,7 +46,7 @@ paths:
       tags:
         - Classification Systems
       summary: List of Classification Systems.
-      description: Retrieves the list of names of all available land use and and cover classification systems in the service.
+      description: 'Retrieves the list of names of all available land use and and cover classification systems in the service.'
       operationId: getClassificationSystems
       responses:
         '200':
@@ -57,7 +57,7 @@ paths:
       tags:
         - Classification Systems
       summary: Add a new classification system.
-      description: Adds a new classification system and returns a consolidated document with unique ids and links.
+      description: 'Adds a new classification system and returns a consolidated document with unique ids and links.'
       operationId: addClassificationSystem
       requestBody:
         $ref: '#/components/requestBodies/ClassificationSystem'
@@ -82,7 +82,7 @@ paths:
         '200':
           $ref: '#/components/responses/ClassificationSystemMetadata'
         '404':
-          $ref: '#/components/responses/NotFound'  
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
     put:
@@ -136,7 +136,7 @@ paths:
       tags:
           - Classes
       summary: Adds one or more classes to a classification system.
-      description: 'Adds one or more classes to a classification system.'
+      description: 'Adds one or more classes to a classification system identified by `system_id`.'
       operationId: addClasses
       requestBody:
           $ref: '#/components/requestBodies/Classes'
@@ -153,7 +153,7 @@ paths:
       tags:
         - Classes
       summary: Fetch a single class.
-      description: 'Fetch the classe with id `class_id` in the classification system  with id `system_id`.'
+      description: 'Fetch the classe with id `class_id` in the classification systemwith id `system_id`.'
       operationId: getClass
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -170,7 +170,7 @@ paths:
       tags:
           - Classes
       summary: Updates a given class.
-      description: 'Updates a class from a classification system.'
+      description: 'Updates a class with id `class_id` from a classification system identified by `system_id`.'
       operationId: updateClasses
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -189,7 +189,7 @@ paths:
       tags:
           - Classes
       summary: Delete a given class.
-      description: 'Delete a class of a classification system.'
+      description: 'Delete a class with id `class_id` of a classification system identified by `system_id`.'
       operationId: deleteClass
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -221,7 +221,7 @@ paths:
       tags:
         -  Style Formats
       summary: Add a new style format.
-      description: Adds a new style format and returns a consolidated document with unique ids and links.
+      description: 'Adds a new style format and returns a consolidated document with unique ids and links.'
       operationId: addStyleFormat
       requestBody:
         $ref: '#/components/requestBodies/StyleFormat'
@@ -309,7 +309,7 @@ paths:
       tags:
         - Styles
       summary: Fetch style file
-      description: 'Fetch style file of the classification with id `system_id`.'
+      description: 'Fetch style file of the classification with id `system_id` and format style identified by `style_format_id`. '
       operationId: getStyle
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -326,7 +326,7 @@ paths:
       tags:
           - Styles
       summary: Updates a style.
-      description: 'Updates a style from a classification system.'
+      description: 'Updates a style from a classification system with id `system_id` and format style identified by `style_format_id`.'
       operationId: updateStyle
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -345,7 +345,7 @@ paths:
       tags:
           - Styles
       summary: Delete a style.
-      description: 'Delete a style of a classification system.'
+      description: 'Delete a style of a classification system with id `system_id` and format style identified by `style_format_id`.'
       operationId: deleteStyle
       parameters:
           - $ref: '#/components/parameters/system_id'
@@ -362,11 +362,11 @@ paths:
     get:
       tags:
         - Mappings
-      summary: Retrives available classification systems mappings.
+      summary: Retrives mappings
+      description: 'Retrives available classification systems mappings using `system_id_source`.'
       operationId: getAvailablesMappings
       parameters:
         - $ref: '#/components/parameters/system_id_source'
-
       responses:
         '200':
           $ref: '#/components/responses/ClassSystemLinks'
@@ -380,7 +380,7 @@ paths:
       tags:
         - Mappings
       summary: Retrives classification systems mappings.
-      description: Mapping of classification systems.
+      description: 'Mapping of classification systems.'
       operationId: getMappings
       parameters:
         - $ref: '#/components/parameters/system_id_source'
@@ -396,7 +396,7 @@ paths:
       tags:
         - Mappings
       summary: Add a new classification system mapping.
-      description: Adds a new classification system mapping and returns a document with the mapping.
+      description: 'Adds a new classification system mapping using `system_id_source` and `system_id_target` and returns a document with the mapping.'
       operationId: addMapping
       parameters:
         - $ref: '#/components/parameters/system_id_source'
@@ -410,8 +410,8 @@ paths:
     put:
       tags:
           - Mappings
-      summary: Update classes of a classification system mapping.
-      description: Updates one or more class of an existing classification system mapping.
+      summary: Update mapping.
+      description: 'Updates mapping between classification systems with `system_id_source` and `system_id_target`.'
       operationId: updateMappings
       parameters:
           - $ref: '#/components/parameters/system_id_source'
@@ -430,7 +430,7 @@ paths:
       tags:
           - Mappings
       summary: Delete a mapping.
-      description: 'Delete a mapping exist between classification systems.'
+      description: 'Delete a mapping exist between classification systems using `system_id_source` and `system_id_target`.'
       operationId: deleteMapping
       parameters:
           - $ref: '#/components/parameters/system_id_source'
@@ -721,7 +721,7 @@ components:
             $ref: '#/components/schemas/MappingsType'
 
     StyleFormat:
-      description: 'A document describing the new classification system.'
+      description: 'A document describing the style format.'
       required: true
       content:
         application/json:
