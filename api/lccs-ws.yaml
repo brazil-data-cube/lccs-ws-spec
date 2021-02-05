@@ -85,6 +85,35 @@ paths:
           $ref: '#/components/responses/NotFound'  
         '500':
           $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+          - Classification Systems
+      summary: Updates a given classification system.
+      description: 'Updates an existing classification system and returns information about it.'
+      operationId: updateClassificationSystem
+      requestBody:
+          $ref: '#/components/requestBodies/ClassificationSystem'
+      responses:
+          '200':
+              $ref: '#/components/responses/ClassificationSystem'
+          '400':
+              $ref: '#/components/responses/InvalidParameter'
+          '500':
+              $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+          - Classification Systems
+      summary: Delete a given classification system.
+      description: 'Delete a classification system.'
+      operationId: deleteClassificationSystem
+      responses:
+          '200':
+              $ref: '#/components/responses/DeleteMessage'
+          '400':
+              $ref: '#/components/responses/InvalidParameter'
+          '500':
+              $ref: '#/components/responses/ServerError'
 
   /classification_systems/{system_id}/classes:
     parameters:
@@ -92,7 +121,7 @@ paths:
     get:
       tags:
         - Classes
-      summary: 'Fetch the classes of a given class system.'
+      summary: Fetch the classes of a given class system.
       description: 'Fetch classes of the classification system identified by `system_id`.'
       operationId: getClasses
       responses:
@@ -103,11 +132,27 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+    post:
+      tags:
+          - Classes
+      summary: Adds one or more classes to a classification system.
+      description: 'Adds one or more classes to a classification system.'
+      operationId: addClasses
+      requestBody:
+          $ref: '#/components/requestBodies/Classes'
+      responses:
+        '200':
+          $ref: '#/components/responses/Classes'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /classification_systems/{system_id}/classes/{class_id}:
     get:
       tags:
         - Classes
-      summary: 'Fetch a single class.'
+      summary: Fetch a single class.
       description: 'Fetch the classe with id `class_id` in the classification system  with id `system_id`.'
       operationId: getClass
       parameters:
@@ -121,13 +166,114 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+    put:
+      tags:
+          - Classes
+      summary: Updates a given class.
+      description: 'Updates a class from a classification system.'
+      operationId: updateClasses
+      parameters:
+        - $ref: '#/components/parameters/system_id'
+        - $ref: '#/components/parameters/class_id'
+      requestBody:
+          $ref: '#/components/requestBodies/Class'
+      responses:
+        '200':
+          $ref: '#/components/responses/ClassMetadata'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+          - Classes
+      summary: Delete a given class.
+      description: 'Delete a class of a classification system.'
+      operationId: deleteClass
+      parameters:
+        - $ref: '#/components/parameters/system_id'
+        - $ref: '#/components/parameters/class_id'
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteMessage'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /classification_systems/style_formats:
+    get:
+      tags:
+        - Style Formats
+      summary: Fetch style formats
+      description: 'Fetch style formats available in service.'
+      operationId: getStyleFormat
+      responses:
+        '200':
+          $ref: '#/components/responses/StyleFormats'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    post:
+      tags:
+        -  Style Formats
+      summary: Add a new style format.
+      description: Adds a new style format and returns a consolidated document with unique ids and links.
+      operationId: addStyleFormat
+      requestBody:
+        $ref: '#/components/requestBodies/StyleFormat'
+      responses:
+        '201':
+          $ref: '#/components/responses/StyleFormat'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /classification_systems/style_formats/{style_format_id}:
+    put:
+      tags:
+          - Style Formats
+      summary: Updates a given style format.
+      description: 'Updates a style format.'
+      operationId: updateStyleFormat
+      parameters:
+        - $ref: '#/components/parameters/style_format_id'
+      requestBody:
+          $ref: '#/components/requestBodies/StyleFormat'
+      responses:
+        '200':
+          $ref: '#/components/responses/StyleFormat'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+          - Style Formats
+      summary: Delete a given style format.
+      description: 'Delete a style format.'
+      operationId: deleteStyleFormat
+      parameters:
+        - $ref: '#/components/parameters/style_format_id'
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteMessage'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /classification_systems/{system_id}/styles:
     get:
       tags:
         - Styles
-      summary: fetch styles
-      description: |
-        Fetch styles of the classification with id `system_id`.
+      summary: Fetch the styles.
+      description: 'Fetch styles of the classification with id `system_id`.'
       operationId: getStyles
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -142,7 +288,7 @@ paths:
       tags:
         - Styles
       summary: Add a new style.
-      description: Adds a new style and returns a messagem.
+      description: 'Adds a new style and returns a messagem.'
       operationId: postMapping
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -162,9 +308,8 @@ paths:
     get:
       tags:
         - Styles
-      summary: fetch style
-      description: |
-        Fetch style of the classification with id `system_id`.
+      summary: Fetch style file
+      description: 'Fetch style file of the classification with id `system_id`.'
       operationId: getStyle
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -174,6 +319,42 @@ paths:
           $ref: '#/components/responses/Style'
         '404':
           $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      tags:
+          - Styles
+      summary: Updates a style.
+      description: 'Updates a style from a classification system.'
+      operationId: updateStyle
+      parameters:
+        - $ref: '#/components/parameters/system_id'
+        - $ref: '#/components/parameters/style_format_id'
+      requestBody:
+          $ref: '#/components/requestBodies/StyleFile'
+      responses:
+        '200':
+          $ref: '#/components/responses/StyleLinks'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+          - Styles
+      summary: Delete a style.
+      description: 'Delete a style of a classification system.'
+      operationId: deleteStyle
+      parameters:
+          - $ref: '#/components/parameters/system_id'
+          - $ref: '#/components/parameters/style_format_id'
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteMessage'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -226,12 +407,48 @@ paths:
         '201':
           $ref: '#/components/responses/Mappings'
 
+    put:
+      tags:
+          - Mappings
+      summary: Update classes of a classification system mapping.
+      description: Updates one or more class of an existing classification system mapping.
+      operationId: updateMappings
+      parameters:
+          - $ref: '#/components/parameters/system_id_source'
+          - $ref: '#/components/parameters/system_id_target'
+      requestBody:
+          $ref: '#/components/requestBodies/Mappings'
+      responses:
+        '200':
+          $ref: '#/components/responses/Mappings'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+          - Mappings
+      summary: Delete a mapping.
+      description: 'Delete a mapping exist between classification systems.'
+      operationId: deleteMapping
+      parameters:
+          - $ref: '#/components/parameters/system_id_source'
+          - $ref: '#/components/parameters/system_id_target'
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteMessage'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
 components:
 
   schemas:
 
     ExceptionType:
-      title: 'Exception raised by the service'
+      title: Exception raised by the service
       description: 'Information about the exception: an error code plus an optional description.'
       type: object
       properties:
@@ -241,6 +458,16 @@ components:
           type: string
       required:
         - code
+
+    DeleteType:
+      title: Delete message
+      description: 'The delete request was successful.'
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
 
     RootType:
       title: The landing page provides links to the API definition. Links to the classification systems endpoint.
@@ -256,7 +483,7 @@ components:
 
     LinkType:
       title: Link for related information.
-      description: This is a generic way to link information in the service.
+      description: 'This is a generic way to link information in the service.'
       type: object
       properties:
         href:
@@ -274,15 +501,14 @@ components:
         - rel
 
     ClassificationSystemsType:
-      title: 'A document with the list of land use and and cover classification systems'
-      description: |
-        The name of a classification system is unique and it can be used in successive queries in the system.
+      title: A document with the list of land use and and cover classification systems
+      description: 'The id of a classification system is unique and it can be used in successive queries in the system.
       type: array
       items:
         $ref: '#/components/schemas/ClassificationSystemMetadataType'
 
     ClassificationSystemType:
-      title: 'Land Use and Cover Classification System'
+      title: Land Use and Cover Classification System
       description: 'This type represents a given land use and cover classification system.'
       type: object
       properties:
@@ -323,15 +549,15 @@ components:
           required:
             - links
 
-    ClassesType:
-      title: 'Land Use and Cover Classes'
+    ClassesLinkType:
+      title: Land Use and Cover Classes
       description: 'Array of land use and cover classes.'
       type: array
       items:
         $ref: '#/components/schemas/LinkType'
 
     ClassType:
-      title: 'Land Use and Cover Class'
+      title: Land Use and Cover Class
       description: 'Land Use and Cover Class.'
       type: object
       properties:
@@ -346,10 +572,17 @@ components:
         class_parent_id:
           type: integer
       required:
-        - id
         - name
         - code
         - description
+
+    ClassesType:
+      type: object
+      properties:
+        classes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassType'
 
     ClassMetadataType:
       title: 'Land Use and Cover Class'
@@ -382,12 +615,11 @@ components:
             $ref: '#/components/schemas/LinkType'
 
     MappingsType:
-      type: object
-      properties:
-        mapping:
-          type: array
-          items:
-            $ref: '#/components/schemas/MappingType'
+      title: 'A document with the list of mappinngs'
+      description: 'List of mappings.'
+      type: array
+      items:
+        $ref: '#/components/schemas/MappingType'
 
     StyleLinksType:
       type: object
@@ -411,10 +643,40 @@ components:
 
     StyleLinkType:
       $ref: '#/components/schemas/LinkType'
-      
+
+    StyleFileType:
+      type: object
+      properties:
+        style:
+          type: string
+          format: binary
+      required:
+        - style
+
+    StyleFormatType:
+      title: Style Formats
+      description: 'This type represents a given style format.'
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - name
+
+    StyleFormatsType:
+      title: 'A document with the list of land use and and cover classification systems'
+      description: |
+        The name of a classification system is unique and it can be used in successive queries in the system.
+      type: array
+      items:
+        $ref: '#/components/schemas/StyleFormatType'
+
+
 
   requestBodies:
-  
+
     ClassificationSystem:
       description: 'A document describing the new classification system.'
       required: true
@@ -423,14 +685,56 @@ components:
           schema:
             $ref: '#/components/schemas/ClassificationSystemType'
 
+    Classes:
+      description: 'A document describing the new classes.'
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClassesType'
+
+
+    Class:
+      description: 'A document describing the new classes.'
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClassType'
+
+    Mapping:
+      description: |
+        A document describing the new mapping.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MappingType'
+
     Mappings:
       description: |
-        A document describing the new classification system.
+        A document describing the new mapping.
       required: true
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/MappingsType'
+
+    StyleFormat:
+      description: 'A document describing the new classification system.'
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StyleFormatType'
+
+    StyleFile:
+      description: 'A document describing the new style of classification system.'
+      required: true
+      content:
+        multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StyleFileType'
 
     Style:
       description: 'A document describing the new style of classification system.'
@@ -439,15 +743,14 @@ components:
         multipart/form-data:
           schema:
             type: object
-            properties:
-              style_format_id:
-                type: integer
-              style:
-                type: string
-                format: binary
-            required:
-              - style_format_id
-              - style
+            allOf:
+              - $ref: '#/components/schemas/StyleFileType'
+              - type: object
+                properties:
+                   style_format_id:
+                      type: integer
+                required:
+                  - style_format_id
 
   responses:
 
@@ -457,7 +760,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RootType'
-            
+
     ClassSystemLinks:
       description: |
         fetch all mappings available with `system_id_source`.
@@ -492,7 +795,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ClassesType'
+            $ref: '#/components/schemas/ClassesLinkType'
 
     ClassMetadata:
       description: 'Fetch the classe with id `class_id` in the classification system with id `system_id`'
@@ -508,7 +811,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MappingsType'
-            
+
     StyleLink:
       description: A link to the style data.
       content:
@@ -533,6 +836,20 @@ components:
             type: string
             format: binary
 
+    StyleFormat:
+      description: 'JSON document with the name list of style formats offered by the service.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StyleFormatType'
+
+    StyleFormats:
+      description: 'JSON document with the name list of style formats offered by the service.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StyleFormatsType'
+
     ServerError:
       description: 'A JSON document informing that an error has occurred in the system.'
       content:
@@ -556,6 +873,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ExceptionType'
+
+    DeleteMessage:
+      description: 'The requested URI was successful.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteType'
 
   parameters:
   
