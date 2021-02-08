@@ -705,6 +705,10 @@ components:
           type: integer
         name:
           type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
       required:
         - name
 
