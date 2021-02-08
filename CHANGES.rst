@@ -10,6 +10,13 @@
 Changes
 =======
 
+Version 0.6 (2021-02-X)
+------------------------
+
+- Addition of CRUD operations (`#22 <https://github.com/brazil-data-cube/lccs-ws-spec/issues/22>`_).
+- Review the OpenAPI definition
+
+
 Version 0.4.0-0 (2020-12-15)
 ----------------------------
 

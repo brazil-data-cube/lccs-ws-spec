@@ -212,16 +212,16 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/style_formats:
+  /style_formats:
     get:
       tags:
         - Style Formats
       summary: Fetch style formats
       description: 'Fetch style formats available in service.'
-      operationId: getStyleFormat
+      operationId: getStylesFormat
       responses:
         '200':
-          $ref: '#/components/responses/StyleFormats'
+          $ref: '#/components/responses/StyleLinks'
         '400':
           $ref: '#/components/responses/InvalidParameter'
         '500':
@@ -243,7 +243,23 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/style_formats/{style_format_id}:
+  /style_formats/{style_format_id}:
+    get:
+      tags:
+        - Style Formats
+      summary: Fetch style formats
+      description: 'Fetch style format available in service.'
+      operationId: getStyleFormat
+      parameters:
+        - $ref: '#/components/parameters/style_format_id'
+      responses:
+        '200':
+          $ref: '#/components/responses/StyleFormat'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
     put:
       tags:
           - Style Formats
@@ -268,7 +284,7 @@ paths:
       tags:
           - Style Formats
       summary: Delete a given style format.
-      description: 'Delete a style format.'
+      description: 'Removes a style format and all styles associated with it.'
       operationId: deleteStyleFormat
       parameters:
         - $ref: '#/components/parameters/style_format_id'
@@ -282,12 +298,12 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/styles:
+  /classification_systems/{system_id}/style_formats:
     get:
       tags:
         - Styles
       summary: Fetch the styles.
-      description: 'Fetch styles of the classification with id `system_id`.'
+      description: 'Fetch styles formats available of the classification with id `system_id`.'
       operationId: getStyles
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -298,6 +314,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  /classification_systems/{system_id}/style:
     post:
       tags:
         - Styles
@@ -387,7 +405,7 @@ paths:
         - $ref: '#/components/parameters/system_id_source'
       responses:
         '200':
-          $ref: '#/components/responses/ClassSystemLinks'
+          $ref: '#/components/responses/MappingLink'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -651,14 +669,10 @@ components:
         $ref: '#/components/schemas/MappingType'
 
     StyleLinksType:
-      type: object
-      properties:
-        links:
-          type: array
-          items:
+      type: array
+      items:
             $ref: '#/components/schemas/LinkType'
-      required:
-        - links
+
 
     ClassSystemLinksType:
       type: object
@@ -691,6 +705,10 @@ components:
           type: integer
         name:
           type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
       required:
         - name
 
@@ -791,8 +809,7 @@ components:
             $ref: '#/components/schemas/RootType'
 
     ClassSystemLinks:
-      description: |
-        fetch all mappings available with `system_id_source`.
+      description: 'Fetch all mappings available with `system_id_source`.'
       content:
         application/json:
           schema:
@@ -827,38 +844,42 @@ components:
             $ref: '#/components/schemas/ClassesLinkType'
 
     ClassMetadata:
-      description: 'Fetch the classe with id `class_id` in the classification system with id `system_id`'
+      description: 'Fetch the class with id `class_id` in the classification system with id `system_id`'
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ClassMetadataType'
 
+    MappingLink:
+      description: 'A link to the mapping data.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StyleLinkType'
+
     Mappings:
-      description: |
-        fetch the mapping with `system_id_source` and `system_id_target`.
+      description: 'Fetch the mapping with `system_id_source` and `system_id_target`.'
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/MappingsType'
 
     StyleLink:
-      description: A link to the style data.
+      description: 'A link to the style data.'
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/StyleLinkType'
 
     StyleLinks:
-      description: |
-        The response is a document consisting of all styles in the classification system.
+      description: 'The response is a document consisting of all styles in the classification system.'
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/StyleLinksType'
 
     Style:
-      description: |
-        The response is a document with the style of the classification system.
+      description: 'The response is a document with the style of the classification system.'
       content:
         application/octet-stream:
           schema:
