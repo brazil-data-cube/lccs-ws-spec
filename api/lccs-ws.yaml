@@ -212,7 +212,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/style_formats:
+  /style_formats:
     get:
       tags:
         - Style Formats
@@ -243,7 +243,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/style_formats/{style_format_id}:
+  /style_formats/{style_format_id}:
     get:
       tags:
         - Style Formats
@@ -255,8 +255,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/StyleFormat'
-        '400':
-          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -284,7 +284,7 @@ paths:
       tags:
           - Style Formats
       summary: Delete a given style format.
-      description: 'Delete a style format.'
+      description: 'Removes a style format and all styles associated with it.'
       operationId: deleteStyleFormat
       parameters:
         - $ref: '#/components/parameters/style_format_id'
@@ -298,12 +298,12 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/styles:
+  /classification_systems/{system_id}/style_formats:
     get:
       tags:
         - Styles
       summary: Fetch the styles.
-      description: 'Fetch styles of the classification with id `system_id`.'
+      description: 'Fetch styles formats available of the classification with id `system_id`.'
       operationId: getStyles
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -314,6 +314,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  /classification_systems/{system_id}/style:
     post:
       tags:
         - Styles
@@ -667,14 +669,10 @@ components:
         $ref: '#/components/schemas/MappingType'
 
     StyleLinksType:
-      type: object
-      properties:
-        links:
-          type: array
-          items:
+      type: array
+      items:
             $ref: '#/components/schemas/LinkType'
-      required:
-        - links
+
 
     ClassSystemLinksType:
       type: object
