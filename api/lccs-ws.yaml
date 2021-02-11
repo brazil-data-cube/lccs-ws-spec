@@ -3,13 +3,20 @@ openapi: 3.0.0
 info:
   title: Land Cover Classification System Web Service
   description: |
-    Land Cover Classification System Web Service (LCCS-WS) is designed to deal with class system representations in traditional land use and cover maps. Besides that it can make easy for applications to have access to the symbology of well know land use and cover maps in applications such as QGIS or GeoServer.
+    The **L**and **C**over **C**lassification **S**ystem **W**eb **S**ervice (LCCS-WS) is designed to handle classification systems traditionally used in land use and cover data products. It also provides access to the map symbology based on style formats such as the ones supported in QGIS and GeoServer.
 
     There are free and open source implementations based on this specification:
     - [lccs-ws](https://github.com/brazil-data-cube/lccs-ws): is a LCCS web server implemented in Python.
+
     - [lccs.py](https://github.com/brazil-data-cube/lccs.py): is a client library for Python.
-    - [wlts](https://github.com/brazil-data-cube/wlts): is a Land Use and Cover Trajectory web service implemented in Python.
-    - [wlts.py](https://github.com/brazil-data-cube/wlts.py): is a client library for Python programmers that makes easy the access to trajectories from land use and cover maps.
+
+    - [rlccs](https://github.com/brazil-data-cube/rlccs): is a client library for R.
+
+    - [wlts](https://github.com/brazil-data-cube/wlts): the Land Use and Cover Trajectory web service complements the LCCS API with the concept of trajectories.
+
+    - [wlts.py](https://github.com/brazil-data-cube/wlts.py): is a Python client library that makes easy the access to trajectories in land use and land cover maps.
+
+    - [rwlts](https://github.com/brazil-data-cube/rwlts.py): the R client library to access WLTS.
   contact:
     name: Brazil Data Cube Team
     url: 'https://discord.com/channels/689541907621085198#'
@@ -35,7 +42,8 @@ paths:
     get:
       tags:
         - Root
-      summary: Returns the root LCCS-WS that is the entry point for users to browse.
+      summary: Root Entry Point
+      description: Returns the root entry point in the service where users can browse the available resources.
       operationId: getRoot
       responses:
         '200':
@@ -45,8 +53,8 @@ paths:
     get:
       tags:
         - Classification Systems
-      summary: List of Classification Systems.
-      description: 'Retrieves the list of names of all available land use and and cover classification systems in the service.'
+      summary: List Classification Systems
+      description: Retrieves the list of names of all available land use and and cover classification systems in the service.
       operationId: getClassificationSystems
       responses:
         '200':
@@ -56,8 +64,8 @@ paths:
     post:
       tags:
         - Classification Systems
-      summary: Add a new classification system.
-      description: 'Adds a new classification system and returns a consolidated document with unique ids and links.'
+      summary: New Classification System
+      description: Adds a new classification system and returns a consolidated document with unique ids and links.
       operationId: addClassificationSystem
       requestBody:
         $ref: '#/components/requestBodies/ClassificationSystem'
@@ -75,8 +83,8 @@ paths:
     get:
       tags:
         - Classification Systems
-      summary: Describes a given classification system.
-      description: 'Returns a document with full information about the classification system identified by `system_id`.'
+      summary: Describes Classification System
+      description: Returns a document with full information about the classification system identified by `system_id`.
       operationId: describeClassificationSystem
       responses:
         '200':
@@ -88,8 +96,8 @@ paths:
     put:
       tags:
           - Classification Systems
-      summary: Updates a given classification system.
-      description: 'Updates an existing classification system and returns information about it.'
+      summary: Update Classification System
+      description: Updates an existing classification system and returns information about it.
       operationId: updateClassificationSystem
       requestBody:
           $ref: '#/components/requestBodies/ClassificationSystem'
@@ -106,8 +114,8 @@ paths:
     delete:
       tags:
           - Classification Systems
-      summary: Delete a given classification system.
-      description: 'Delete a classification system.'
+      summary: Delete Classification System
+      description: Delete a given classification system.
       operationId: deleteClassificationSystem
       responses:
           '204':
@@ -125,8 +133,8 @@ paths:
     get:
       tags:
         - Classes
-      summary: Fetch the classes of a given class system.
-      description: 'Fetch classes of the classification system identified by `system_id`.'
+      summary: Classification System's Classes
+      description: Fetch classes of the classification system identified by `system_id`.
       operationId: getClasses
       responses:
         '200':
@@ -139,8 +147,8 @@ paths:
     post:
       tags:
           - Classes
-      summary: Adds one or more classes to a classification system.
-      description: 'Adds one or more classes to a classification system identified by `system_id`.'
+      summary: Add Classes
+      description: Adds one or more classes to a classification system identified by `system_id`.
       operationId: addClasses
       requestBody:
           $ref: '#/components/requestBodies/Classes'
@@ -158,8 +166,8 @@ paths:
     get:
       tags:
         - Classes
-      summary: Fetch a single class.
-      description: 'Fetch the classe with id `class_id` in the classification system with id `system_id`.'
+      summary: Fetch Class
+      description: Fetch the class identified by `class_id` in the classification system (`system_id`).
       operationId: getClass
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -175,8 +183,8 @@ paths:
     put:
       tags:
           - Classes
-      summary: Updates a given class.
-      description: 'Updates a class with id `class_id` from a classification system identified by `system_id`.'
+      summary: Update Class
+      description: Updates a class with id `class_id` from a classification system identified by `system_id`.
       operationId: updateClasses
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -196,8 +204,8 @@ paths:
     delete:
       tags:
           - Classes
-      summary: Delete a given class.
-      description: 'Delete a class with id `class_id` of a classification system identified by `system_id`.'
+      summary: Delete Class
+      description: Delete a class with id `class_id` of a classification system identified by `system_id`.
       operationId: deleteClass
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -216,8 +224,8 @@ paths:
     get:
       tags:
         - Style Formats
-      summary: Fetch style formats
-      description: 'Fetch style formats available in service.'
+      summary: List Style Formats
+      description: Fetch all style formats available in service.
       operationId: getStylesFormat
       responses:
         '200':
@@ -230,8 +238,8 @@ paths:
     post:
       tags:
         -  Style Formats
-      summary: Add a new style format.
-      description: 'Adds a new style format and returns a consolidated document with unique ids and links.'
+      summary: New Style Format
+      description: Adds a new style format and returns a consolidated document with unique ids and links.
       operationId: addStyleFormat
       requestBody:
         $ref: '#/components/requestBodies/StyleFormat'
@@ -247,8 +255,8 @@ paths:
     get:
       tags:
         - Style Formats
-      summary: Fetch style formats
-      description: 'Fetch style format available in service.'
+      summary: Fetch Style Format
+      description: Fetch information about a specific style format identified by `style_format_id`.
       operationId: getStyleFormat
       parameters:
         - $ref: '#/components/parameters/style_format_id'
@@ -263,8 +271,8 @@ paths:
     put:
       tags:
           - Style Formats
-      summary: Updates a given style format.
-      description: 'Updates a style format.'
+      summary: Update Style Format
+      description: Updates a style format.
       operationId: updateStyleFormat
       parameters:
         - $ref: '#/components/parameters/style_format_id'
@@ -283,8 +291,8 @@ paths:
     delete:
       tags:
           - Style Formats
-      summary: Delete a given style format.
-      description: 'Removes a style format and all styles associated with it.'
+      summary: Delete Style Format
+      description: Removes a style format and all styles associated with it.
       operationId: deleteStyleFormat
       parameters:
         - $ref: '#/components/parameters/style_format_id'
@@ -302,8 +310,8 @@ paths:
     get:
       tags:
         - Styles
-      summary: Fetch the styles.
-      description: 'Fetch styles formats available of the classification with id `system_id`.'
+      summary: Fetch Styles
+      description: Fetch all styles formats available of the classification with id `system_id`.
       operationId: getStyles
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -315,12 +323,12 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/style:
+  /classification_systems/{system_id}/styles:
     post:
       tags:
         - Styles
-      summary: Add a new style.
-      description: 'Adds a new style and returns a message.'
+      summary: Add New Style
+      description: Adds a new style to the classifiation system.
       operationId: postMapping
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -340,8 +348,8 @@ paths:
     get:
       tags:
         - Styles
-      summary: Fetch style file
-      description: 'Fetch style file of the classification with id `system_id` and format style identified by `style_format_id`. '
+      summary: Fetch Style
+      description: Fetch the style associated to the classification system (`system_id`) with the specific format (`style_format_id`).
       operationId: getStyle
       parameters:
         - $ref: '#/components/parameters/system_id'
@@ -378,8 +386,8 @@ paths:
     delete:
       tags:
           - Styles
-      summary: Delete a style.
-      description: 'Delete a style of a classification system with id `system_id` and format style identified by `style_format_id`.'
+      summary: Delete Style
+      description: Delete a style of a classification system with id `system_id` and format style identified by `style_format_id`.
       operationId: deleteStyle
       parameters:
           - $ref: '#/components/parameters/system_id'
@@ -398,8 +406,8 @@ paths:
     get:
       tags:
         - Mappings
-      summary: Retrives mappings
-      description: 'Retrives available classification systems mappings using `system_id_source`.'
+      summary: Retrive Mapping
+      description: Retrives available classification systems mappings using `system_id_source`.
       operationId: getAvailablesMappings
       parameters:
         - $ref: '#/components/parameters/system_id_source'
@@ -415,8 +423,8 @@ paths:
     get:
       tags:
         - Mappings
-      summary: Retrives classification systems mappings.
-      description: 'Mapping of classification systems.'
+      summary: 'Retrive Mappings'
+      description: Mapping of classification systems.
       operationId: getMappings
       parameters:
         - $ref: '#/components/parameters/system_id_source'
@@ -432,8 +440,8 @@ paths:
     post:
       tags:
         - Mappings
-      summary: Add a new classification system mapping.
-      description: 'Adds a new classification system mapping using `system_id_source` and `system_id_target` and returns a document with the mapping.'
+      summary: New Mapping
+      description: Adds a new classification system mapping using `system_id_source` and `system_id_target` and returns a document with the mapping.
       operationId: addMapping
       parameters:
         - $ref: '#/components/parameters/system_id_source'
@@ -453,8 +461,8 @@ paths:
     put:
       tags:
           - Mappings
-      summary: Update mapping.
-      description: 'Updates mapping between classification systems with `system_id_source` and `system_id_target`.'
+      summary: Update Mapping
+      description: Updates mapping between classification systems with `system_id_source` and `system_id_target`.
       operationId: updateMappings
       parameters:
           - $ref: '#/components/parameters/system_id_source'
@@ -474,8 +482,8 @@ paths:
     delete:
       tags:
           - Mappings
-      summary: Delete a mapping.
-      description: 'Delete a mapping exist between classification systems using `system_id_source` and `system_id_target`.'
+      summary: Delete Mapping.
+      description: Delete a mapping exist between classification systems using `system_id_source` and `system_id_target`.
       operationId: deleteMapping
       parameters:
           - $ref: '#/components/parameters/system_id_source'
@@ -517,19 +525,32 @@ components:
         - message
 
     RootType:
-      title: The landing page provides links to the API definition. Links to the classification systems endpoint.
-      description: 'Provides link to the classification system.'
+      title: 'Landing Page'
+      description: 'The landing page provides links to the classification systems.'
       type: object
       properties:
+        lccs_version:
+          type: string
+          example: '0.6'
         links:
           type: array
           items:
             $ref: '#/components/schemas/LinkType'
+          example:
+            - href: 'https://brazildatacube.dpi.inpe.br/lccs/'
+              rel: 'self'
+              title: 'Link to this document'
+              type: 'application/json'
+            - href: 'https://brazildatacube.dpi.inpe.br/lccs/classification_systems'
+              rel: 'classification_systems'
+              title: 'List of available classification systems'
+              type: 'application/json'
       required:
+        - lccs_version
         - links
 
     LinkType:
-      title: Link for related information.
+      title: 'Link'
       description: 'This is a generic way to link information in the service.'
       type: object
       properties:
