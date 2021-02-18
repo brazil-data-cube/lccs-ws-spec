@@ -27,7 +27,8 @@ steps:
   - git clone -b master git@github.com:brazil-data-cube/brazil-data-cube.github.io.git /drone/src/brazil-data-cube.github.io
   - cd /drone/src/brazil-data-cube.github.io
   - git status
-  - cp ../lccs-ws-spec/dist/index.html applications/lccs-ws.html
+  - mkdir -p spec/lccs/latest
+  - cp ../lccs-ws-spec/dist/index.html spec/lccs/latest/index.html
   - git add --all
   - git config user.email "bdc.dev@dpi.inpe.br"
   - git config user.name "Drone CI/CD"
