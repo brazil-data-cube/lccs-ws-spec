@@ -12,7 +12,7 @@ workspace:
 
 steps:
 - name: build
-  image: node:latest
+  image: node:lts
   commands:
   - npm install
   - npm run build
