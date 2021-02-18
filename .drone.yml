@@ -1,0 +1,56 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  path: lccs-ws-spec
+
+steps:
+- name: build
+  image: node:latest
+  commands:
+  - npm install
+  - npm run build
+
+- name: docs
+  image: alpine/git
+  commands:
+  - mkdir -p $HOME/.ssh
+  - echo "$SSH_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa
+  - eval `ssh-agent -s` && ssh-add $HOME/.ssh/id_rsa
+  - ssh-keyscan -H github.com >> $HOME/.ssh/known_hosts
+  - git clone -b master git@github.com:brazil-data-cube/brazil-data-cube.github.io.git /drone/src/brazil-data-cube.github.io
+  - cd /drone/src/brazil-data-cube.github.io
+  - git status
+  - cp ../lccs-ws-spec/dist/index.html applications/lccs-ws.html
+  - git add --all
+  - git config user.email "bdc.dev@dpi.inpe.br"
+  - git config user.name "Drone CI/CD"
+  - git commit -m "Update lccs-ws"
+  - git push origin master
+  environment:
+    SSH_KEY:
+      from_secret: ssh_key
+
+- name: discord-notify
+  image: brazildatacube/bdc-drone-discord
+  settings:
+    webhook:
+      from_secret: discord_webhook
+  when:
+    status:
+    - failure
+    - success
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+...
