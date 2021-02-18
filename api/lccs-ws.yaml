@@ -20,13 +20,13 @@ info:
   contact:
     name: Brazil Data Cube Team
     url: 'https://discord.com/channels/689541907621085198#'
-    email: brazildatacube@inpe.br  
+    email: brazildatacube@inpe.br
   license:
     name: MIT
     url: 'https://opensource.org/licenses/MIT'
   version: '0.6'
   x-logo:
-    url: ../img/bdc-logo.png
+    url: 'https://brazil-data-cube.github.io/_static/logo-bdc.png'
     altText: Brazil Data Cube
     href: 'https://github.com/brazil-data-cube'
 
@@ -953,7 +953,7 @@ components:
             $ref: '#/components/schemas/DeleteType'
 
   parameters:
-  
+
     class_id:
       name: class_id
       in: path
@@ -977,7 +977,7 @@ components:
       required: true
       schema:
         type: integer
-        
+
     system_id_source:
       name: system_id_source
       in: path
