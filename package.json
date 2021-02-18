@@ -1,6 +1,6 @@
 {
   "name": "lccs-ws-spec",
-  "version": "0.6.0-0",
+  "version": "0.6.0",
   "description": "Land Cover Classification System Web Service - Specification",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "Fabiana Zioti",
   "license": "MIT",
   "dependencies": {
-    "redoc-cli": "^0.9.4"
+    "redoc-cli": "^0.10.2"
   }
 }
