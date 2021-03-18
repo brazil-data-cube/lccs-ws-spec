@@ -127,6 +127,24 @@ paths:
           '500':
               $ref: '#/components/responses/ServerError'
 
+  /classification_systems/search/{system_name}/{system_version}:
+    parameters:
+      - $ref: '#/components/parameters/system_name'
+      - $ref: '#/components/parameters/system_version'
+    get:
+      tags:
+        - Classification Systems
+      summary: Get a Classification System.
+      description: Returns information about the classification system identified by `system_name` and `system_version`.
+      operationId: getClassificationSystemByName
+      responses:
+        '200':
+          $ref: '#/components/responses/ClassificationSystem'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /classification_systems/{system_id}/classes:
     parameters:
       - $ref: '#/components/parameters/system_id'
@@ -262,7 +280,7 @@ paths:
         - $ref: '#/components/parameters/style_format_id'
       responses:
         '200':
-          $ref: '#/components/responses/StyleFormat'
+          $ref: '#/components/responses/StyleFormatLink'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -301,6 +319,23 @@ paths:
           $ref: '#/components/responses/DeleteMessage'
         '400':
           $ref: '#/components/responses/InvalidParameter'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /style_formats/search/{style_format_name}:
+    get:
+      tags:
+        - Style Formats
+      summary: Fetch a Style Format
+      description: Fetch information about a specific style format identified by `style_format_name`.
+      operationId: getStyleFormatByName
+      parameters:
+        - $ref: '#/components/parameters/style_format_name'
+      responses:
+        '200':
+          $ref: '#/components/responses/StyleFormat'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -497,6 +532,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
 
 components:
 
@@ -726,10 +762,21 @@ components:
           type: integer
         name:
           type: string
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/LinkType'
+      required:
+        - name
+
+    StyleFormatTypeLink:
+      title: Style Formats
+      description: 'This type represents a given style format.'
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/StyleFormatType'
+        - type: object
+          properties:
+            links:
+              type: array
+              items:
+                $ref: '#/components/schemas/LinkType'
       required:
         - name
 
@@ -739,7 +786,7 @@ components:
         The name of a classification system is unique and it can be used in successive queries in the system.
       type: array
       items:
-        $ref: '#/components/schemas/StyleFormatType'
+        $ref: '#/components/schemas/StyleFormatTypeLink'
 
 
 
@@ -760,7 +807,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ClassesType'
-
 
     Class:
       description: 'A document describing the new classes.'
@@ -907,6 +953,13 @@ components:
             type: string
             format: binary
 
+    StyleFormatLink:
+      description: 'JSON document with the name list of style formats offered by the service.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StyleFormatTypeLink'
+
     StyleFormat:
       description: 'JSON document with the name list of style formats offered by the service.'
       content:
@@ -970,6 +1023,14 @@ components:
       schema:
         type: integer
 
+    style_format_name:
+      name: style_format_name
+      in: path
+      description: Name of style format.
+      required: true
+      schema:
+        type: string
+
     system_id:
       name: system_id
       in: path
@@ -977,6 +1038,22 @@ components:
       required: true
       schema:
         type: integer
+
+    system_name:
+      name: system_name
+      in: path
+      description: Name of a classification system.
+      required: true
+      schema:
+        type: string
+
+    system_version:
+      name: system_version
+      in: path
+      description: Version of a classification system.
+      required: true
+      schema:
+        type: string
 
     system_id_source:
       name: system_id_source
