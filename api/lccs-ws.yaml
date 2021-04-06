@@ -681,12 +681,9 @@ components:
         - description
 
     ClassesType:
-      type: object
-      properties:
-        classes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClassType'
+      type: array
+      items:
+          $ref: '#/components/schemas/ClassType'
 
     ClassMetadataType:
       title: 'Land Use and Cover Class'
