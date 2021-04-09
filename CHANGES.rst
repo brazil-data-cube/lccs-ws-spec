@@ -10,14 +10,15 @@
 Changes
 =======
 
-Version 0.6 (2021-02-X)
-------------------------
+Version 0.6.0 (2021-04-09)
+--------------------------
 
 - Addition of CRUD operations (`#22 <https://github.com/brazil-data-cube/lccs-ws-spec/issues/22>`_).
+- Add resource to resolve alias for ``classification_systems`` and ``styles`` (`#28 <https://github.com/brazil-data-cube/lccs-ws-spec/issues/28>`_).
 - Review the OpenAPI definition
 
 
-Version 0.4.0-0 (2020-12-15)
+Version 0.4.0 (2020-12-15)
 ----------------------------
 
 - Review the OpenAPI definition (`#16 <https://github.com/brazil-data-cube/lccs-ws-spec/issues/16>`_).
