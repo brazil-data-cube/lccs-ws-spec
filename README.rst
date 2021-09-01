@@ -51,19 +51,19 @@ Overview of Service Operations
 
 - The ``/classification_systems`` operation when queried with a ``GET`` method returns the list of land use and cover classification systems available in the service. A ``POST`` request on this route allow the client to add a new classification system.
 
-- The ``/classification_systems/{system_id}`` operation when queried with a ``GET`` method returns a document with full information about the classification system.
+- The ``/classification_systems/{system_id_or_identifier}`` operation when queried with a ``GET`` method returns a document with full information about the classification system.
 
-- The ``/classification_systems/{system_id}/classes`` operation when queried with a ``GET`` method returns the list of classes from a classification system.
+- The ``/classification_systems/{system_id_or_identifier}/classes`` operation when queried with a ``GET`` method returns the list of classes from a classification system.
 
-- The ``/classification_systems/{system_id}/classes/{class_id}`` operation when queried with a ``GET`` method returns information about a class from a classification system
+- The ``/classification_systems/{system_id_or_identifier}/classes/{class_id}`` operation when queried with a ``GET`` method returns information about a class from a classification system
 
-- The ``/classification_systems/{system_id}/styles`` operation when queried with a ``GET`` method returns the list of styles of the classification.
+- The ``/classification_systems/{system_id_or_identifier}/styles`` operation when queried with a ``GET`` method returns the list of styles of the classification.
 
-- The ``/classification_system/{system_id}/styles/{style_id}`` operation when queried with a ``GET`` method returns a document with the style of the classification system.
+- The ``/classification_system/{system_id_or_identifier}/styles/{style_id}`` operation when queried with a ``GET`` method returns a document with the style of the classification system.
 
-- The ``/mappings/{system_id_source}`` operation when queried with a ``GET`` method returns a list of available mappings for the classification system.
+- The ``/mappings/{system_id_or_identifier_source}`` operation when queried with a ``GET`` method returns a list of available mappings for the classification system.
 
-- The ``/mappings/{system_id_source}/{system_id_target}``: operation when queried with a ``GET`` method returns the mapping between the classification systems. A ``POST`` request on this route allow the client to add a new mapping.
+- The ``/mappings/{system_id_or_identifier_source}/{system_id_or_identifier_target}``: operation when queried with a ``GET`` method returns the mapping between the classification systems. A ``POST`` request on this route allow the client to add a new mapping.
 
 Building the Documentation
 ==========================
