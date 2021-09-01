@@ -1130,7 +1130,7 @@ components:
     system_id_or_identifier:
       name: system_id_or_identifier
       in: path
-      description: The Name or Identifier of a classification system.
+      description: The Name or Identifier (name-version) of a classification system.
       required: true
       schema:
         type: integer
@@ -1154,7 +1154,7 @@ components:
     system_id_or_identifier_source:
       name: system_id_or_identifier_source
       in: path
-      description: Identifier (name) of a source classification system.
+      description: Identifier (name-version) or id of a source classification system.
       required: true
       schema:
         type: string
@@ -1162,7 +1162,7 @@ components:
     system_id_or_identifier_target:
       name: system_id_or_identifier_target
       in: path
-      description: Identifier (name) of a target classification system.
+      description: Identifier (name-version) or id of a target classification system.
       required: true
       schema:
         type: string
