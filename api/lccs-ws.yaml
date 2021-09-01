@@ -1114,7 +1114,7 @@ components:
     style_format_id_or_name:
       name: style_format_id_or_name
       in: path
-      description: Identifier of style format.
+      description: The id or Identifier of style format.
       required: true
       schema:
         type: integer
