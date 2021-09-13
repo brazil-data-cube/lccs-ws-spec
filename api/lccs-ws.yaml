@@ -24,7 +24,7 @@ info:
   license:
     name: MIT
     url: 'https://opensource.org/licenses/MIT'
-  version: '0.6'
+  version: '0.8'
   x-logo:
     url: 'https://brazil-data-cube.github.io/_static/logo-bdc.png'
     altText: Brazil Data Cube
@@ -77,14 +77,14 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}:
+  /classification_systems/{system_id_or_identifier}:
     parameters:
-      - $ref: '#/components/parameters/system_id'
+      - $ref: '#/components/parameters/system_id_or_identifier'
     get:
       tags:
         - Classification Systems
       summary: Describes Classification System
-      description: Returns a document with full information about the classification system identified by `system_id`.
+      description: Returns a document with full information about the classification system identified by `system_id_or_identifier`.
       operationId: describeClassificationSystem
       responses:
         '200':
@@ -139,20 +139,20 @@ paths:
       operationId: getClassificationSystemByName
       responses:
         '200':
-          $ref: '#/components/responses/ClassificationSystem'
+          $ref: '#/components/responses/ClassificationSystemMetadata'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/classes:
+  /classification_systems/{system_id_or_identifier}/classes:
     parameters:
-      - $ref: '#/components/parameters/system_id'
+      - $ref: '#/components/parameters/system_id_or_identifier'
     get:
       tags:
         - Classes
       summary: Classification System's Classes
-      description: Fetch classes of the classification system identified by `system_id`.
+      description: Fetch classes of the classification system identified by `system_id_or_identifier`.
       operationId: getClasses
       responses:
         '200':
@@ -166,7 +166,7 @@ paths:
       tags:
           - Classes
       summary: Add Classes
-      description: Adds one or more classes to a classification system identified by `system_id`.
+      description: Adds one or more classes to a classification system identified by `system_id_or_identifier`.
       operationId: addClasses
       requestBody:
           $ref: '#/components/requestBodies/Classes'
@@ -180,16 +180,16 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/classes/{class_id}:
+  /classification_systems/{system_id_or_identifier}/classes/{class_id_or_name}:
     get:
       tags:
         - Classes
       summary: Fetch Class
-      description: Fetch the class identified by `class_id` in the classification system (`system_id`).
+      description: Fetch the class identified by `class_id` in the classification system (`system_id_or_identifier`).
       operationId: getClass
       parameters:
-        - $ref: '#/components/parameters/system_id'
-        - $ref: '#/components/parameters/class_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
+        - $ref: '#/components/parameters/class_id_or_name'
       responses:
         '200':
           $ref: '#/components/responses/ClassMetadata'
@@ -202,11 +202,11 @@ paths:
       tags:
           - Classes
       summary: Update Class
-      description: Updates a class with id `class_id` from a classification system identified by `system_id`.
+      description: Updates a class with id `class_id` from a classification system identified by `system_id_or_identifier`.
       operationId: updateClasses
       parameters:
-        - $ref: '#/components/parameters/system_id'
-        - $ref: '#/components/parameters/class_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
+        - $ref: '#/components/parameters/class_id_or_name'
       requestBody:
           $ref: '#/components/requestBodies/Class'
       responses:
@@ -223,11 +223,11 @@ paths:
       tags:
           - Classes
       summary: Delete Class
-      description: Delete a class with id `class_id` of a classification system identified by `system_id`.
+      description: Delete a class with id `class_id` of a classification system identified by `system_id_or_identifier`.
       operationId: deleteClass
       parameters:
-        - $ref: '#/components/parameters/system_id'
-        - $ref: '#/components/parameters/class_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
+        - $ref: '#/components/parameters/class_id_or_name'
       responses:
         '204':
           $ref: '#/components/responses/DeleteMessage'
@@ -269,15 +269,15 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /style_formats/{style_format_id}:
+  /style_formats/{style_format_id_or_name}:
     get:
       tags:
         - Style Formats
       summary: Fetch Style Format
-      description: Fetch information about a specific style format identified by `style_format_id`.
+      description: Fetch information about a specific style format identified by `style_format_id_or_name`.
       operationId: getStyleFormat
       parameters:
-        - $ref: '#/components/parameters/style_format_id'
+        - $ref: '#/components/parameters/style_format_id_or_name'
       responses:
         '200':
           $ref: '#/components/responses/StyleFormatLink'
@@ -293,7 +293,7 @@ paths:
       description: Updates a style format.
       operationId: updateStyleFormat
       parameters:
-        - $ref: '#/components/parameters/style_format_id'
+        - $ref: '#/components/parameters/style_format_id_or_name'
       requestBody:
           $ref: '#/components/requestBodies/StyleFormat'
       responses:
@@ -313,7 +313,7 @@ paths:
       description: Removes a style format and all styles associated with it.
       operationId: deleteStyleFormat
       parameters:
-        - $ref: '#/components/parameters/style_format_id'
+        - $ref: '#/components/parameters/style_format_id_or_name'
       responses:
         '204':
           $ref: '#/components/responses/DeleteMessage'
@@ -341,15 +341,15 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/style_formats:
+  /classification_systems/{system_id_or_identifier}/style_formats:
     get:
       tags:
         - Styles
       summary: Fetch Styles
-      description: Fetch all styles formats available of the classification with id `system_id`.
+      description: Fetch all styles formats available of the classification with id `system_id_or_identifier`.
       operationId: getStyles
       parameters:
-        - $ref: '#/components/parameters/system_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
       responses:
         '200':
           $ref: '#/components/responses/StyleLinks'
@@ -358,7 +358,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/styles:
+  /classification_systems/{system_id_or_identifier}/styles:
     post:
       tags:
         - Styles
@@ -366,7 +366,7 @@ paths:
       description: Adds a new style to the classifiation system.
       operationId: postMapping
       parameters:
-        - $ref: '#/components/parameters/system_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
       requestBody:
         $ref: '#/components/requestBodies/Style'
       responses:
@@ -379,16 +379,16 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /classification_systems/{system_id}/styles/{style_format_id}:
+  /classification_systems/{system_id_or_identifier}/styles/{style_format_id_or_name}:
     get:
       tags:
         - Styles
       summary: Fetch Style
-      description: Fetch the style associated to the classification system (`system_id`) with the specific format (`style_format_id`).
+      description: Fetch the style associated to the classification system (`system_id_or_identifier`) with the specific format (`style_format_id_or_name`).
       operationId: getStyle
       parameters:
-        - $ref: '#/components/parameters/system_id'
-        - $ref: '#/components/parameters/style_format_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
+        - $ref: '#/components/parameters/style_format_id_or_name'
       responses:
         '200':
           $ref: '#/components/responses/Style'
@@ -401,11 +401,11 @@ paths:
       tags:
           - Styles
       summary: Updates a style.
-      description: 'Updates a style from a classification system with id `system_id` and format style identified by `style_format_id`.'
+      description: Updates a style from a classification system with id `system_id_or_identifier` and format style identified by `style_format_id_or_name`.
       operationId: updateStyle
       parameters:
-        - $ref: '#/components/parameters/system_id'
-        - $ref: '#/components/parameters/style_format_id'
+        - $ref: '#/components/parameters/system_id_or_identifier'
+        - $ref: '#/components/parameters/style_format_id_or_name'
       requestBody:
           $ref: '#/components/requestBodies/StyleFile'
       responses:
@@ -425,8 +425,8 @@ paths:
       description: Delete a style of a classification system with id `system_id` and format style identified by `style_format_id`.
       operationId: deleteStyle
       parameters:
-          - $ref: '#/components/parameters/system_id'
-          - $ref: '#/components/parameters/style_format_id'
+          - $ref: '#/components/parameters/system_id_or_identifier'
+          - $ref: '#/components/parameters/style_format_id_or_name'
       responses:
         '204':
           $ref: '#/components/responses/DeleteMessage'
@@ -437,7 +437,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /mappings/{system_id_source}:
+  /mappings/{system_id_or_identifier_source}:
     get:
       tags:
         - Mappings
@@ -445,7 +445,7 @@ paths:
       description: Retrives available classification systems mappings using `system_id_source`.
       operationId: getAvailablesMappings
       parameters:
-        - $ref: '#/components/parameters/system_id_source'
+        - $ref: '#/components/parameters/system_id_or_identifier_source'
       responses:
         '200':
           $ref: '#/components/responses/MappingLink'
@@ -454,7 +454,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /mappings/{system_id_source}/{system_id_target}:
+  /mappings/{system_id_or_identifier_source}/{system_id_or_identifier_target}:
     get:
       tags:
         - Mappings
@@ -462,8 +462,8 @@ paths:
       description: Mapping of classification systems.
       operationId: getMappings
       parameters:
-        - $ref: '#/components/parameters/system_id_source'
-        - $ref: '#/components/parameters/system_id_target'
+        - $ref: '#/components/parameters/system_id_or_identifier_source'
+        - $ref: '#/components/parameters/system_id_or_identifier_target'
       responses:
         '200':
           $ref: '#/components/responses/Mappings'
@@ -476,11 +476,11 @@ paths:
       tags:
         - Mappings
       summary: New Mapping
-      description: Adds a new classification system mapping using `system_id_source` and `system_id_target` and returns a document with the mapping.
+      description: Adds a new classification system mapping using `system_id_or_identifier_source` and `system_id_or_identifier_target` and returns a document with the mapping.
       operationId: addMapping
       parameters:
-        - $ref: '#/components/parameters/system_id_source'
-        - $ref: '#/components/parameters/system_id_target'
+        - $ref: '#/components/parameters/system_id_or_identifier_source'
+        - $ref: '#/components/parameters/system_id_or_identifier_target'
       requestBody:
         $ref: '#/components/requestBodies/Mappings'
       responses:
@@ -497,11 +497,11 @@ paths:
       tags:
           - Mappings
       summary: Update Mapping
-      description: Updates mapping between classification systems with `system_id_source` and `system_id_target`.
+      description: Updates mapping between classification systems with `system_id_or_identifier_source` and `system_id_or_identifier_target`.
       operationId: updateMappings
       parameters:
-          - $ref: '#/components/parameters/system_id_source'
-          - $ref: '#/components/parameters/system_id_target'
+          - $ref: '#/components/parameters/system_id_or_identifier_source'
+          - $ref: '#/components/parameters/system_id_or_identifier_target'
       requestBody:
           $ref: '#/components/requestBodies/Mappings'
       responses:
@@ -518,11 +518,11 @@ paths:
       tags:
           - Mappings
       summary: Delete Mapping.
-      description: Delete a mapping exist between classification systems using `system_id_source` and `system_id_target`.
+      description: Delete a mapping exist between classification systems using `system_id_or_identifier_source` and `system_id_or_identifier_target`.
       operationId: deleteMapping
       parameters:
-          - $ref: '#/components/parameters/system_id_source'
-          - $ref: '#/components/parameters/system_id_target'
+          - $ref: '#/components/parameters/system_id_or_identifier_source'
+          - $ref: '#/components/parameters/system_id_or_identifier_target'
       responses:
         '204':
           $ref: '#/components/responses/DeleteMessage'
@@ -565,7 +565,10 @@ components:
       description: 'The landing page provides links to the classification systems.'
       type: object
       properties:
-        lccs_version:
+        application_name:
+          type: string
+          example: 'Land Cover Classification System Service'
+        version:
           type: string
           example: '0.6'
         links:
@@ -582,8 +585,9 @@ components:
               title: 'List of available classification systems'
               type: 'application/json'
       required:
-        - lccs_version
+        - version
         - links
+        - application_name
 
     LinkType:
       title: 'Link'
@@ -609,7 +613,7 @@ components:
       description: 'The id of a classification system is unique and it can be used in successive queries in the system.
       type: array
       items:
-        $ref: '#/components/schemas/ClassificationSystemMetadataType'
+        $ref: '#/components/schemas/ClassificationSystemMetadata'
 
     ClassificationSystemType:
       title: Land Use and Cover Classification System
@@ -620,8 +624,20 @@ components:
           type: integer
         name:
           type: string
+        title:
+          type: object
+          properties:
+            en:
+              type: string
+            pt-br:
+              type: string
         description:
-          type: string
+          type: object
+          properties:
+            en:
+              type: string
+            pt-br:
+              type: string
         authority_name:
           type: string
         version:
@@ -633,34 +649,52 @@ components:
         - version
 
     ClassificationSystemMetadataType:
-      allOf:
-        - $ref: '#/components/schemas/ClassificationSystemType'
-        - type: object
-          properties:
-            links:
-              type: array
-              items:
+      title: List of Classification System
+      description: 'Classification System.'
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        identifier:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        authority_name:
+          type: string
+        version:
+          type: string
+        links:
+            type: array
+            items:
                 $ref: '#/components/schemas/LinkType'
-              example:
-                - href: 'http://www.esensing.dpi.inpe.br/lccs/classification_systems/system_id'
-                  rel: self
-                - href: 'http://www.esensing.dpi.inpe.br/lccs/classification_systems/system_id/classes'
-                  rel: classes
-                - href: 'http://www.esensing.dpi.inpe.br/lccs/classification_systems'
-                  rel: parent
-                - href: 'http://www.esensing.dpi.inpe.br/lccs/'
-                  rel: root
-          required:
-            - links
+      required:
+        - name
+        - identifier
+        - version
+        - links
 
     ClassesLinkType:
       title: Land Use and Cover Classes
       description: 'Array of land use and cover classes.'
       type: array
       items:
-        $ref: '#/components/schemas/LinkType'
+        properties:
+          code:
+            type: string
+          id:
+            type: integer
+          name:
+            type: string
+          links:
+            type: array
+            items:
+                $ref: '#/components/schemas/LinkType'
 
-    ClassType:
+    ClassTypeGet:
       title: Land Use and Cover Class
       description: 'Land Use and Cover Class.'
       type: object
@@ -668,6 +702,8 @@ components:
         id:
           type: integer
         name:
+          type: string
+        title:
           type: string
         code:
           type: string
@@ -680,16 +716,48 @@ components:
         - code
         - description
 
+    ClassTypePost:
+      title: Land Use and Cover Class
+      description: 'Land Use and Cover Class.'
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        title:
+          type: object
+          properties:
+            en:
+              type: string
+            pt-br:
+              type: string
+        code:
+          type: string
+        description:
+          type: object
+          properties:
+            en:
+              type: string
+            pt-br:
+              type: string
+        class_parent_id:
+          type: integer
+      required:
+        - name
+        - code
+        - description
+
     ClassesType:
       type: array
       items:
-          $ref: '#/components/schemas/ClassType'
+          $ref: '#/components/schemas/ClassTypePost'
 
     ClassMetadataType:
       title: 'Land Use and Cover Class'
       description: 'Describes a class from a classification system.'
       allOf:
-        - $ref: '#/components/schemas/ClassType'
+        - $ref: '#/components/schemas/ClassTypeGet'
         - type: object
           properties:
             links:
@@ -706,14 +774,37 @@ components:
           type: number
         description:
           type: string
-        source_id:
+        source_class_id:
           type: number
-        target_id:
+        target_class_id:
           type: number
         links:
           type: array
           items:
             $ref: '#/components/schemas/LinkType'
+
+    MappingTypePost:
+      type: object
+      properties:
+        degree_of_similarity:
+          type: number
+        description:
+          type: string
+        source_class:
+          type: number
+        target_class:
+          type: number
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+
+    MappingsTypePost:
+      title: 'A document with the list of mappinngs'
+      description: 'List of mappings.'
+      type: array
+      items:
+        $ref: '#/components/schemas/MappingTypePost'
 
     MappingsType:
       title: 'A document with the list of mappinngs'
@@ -725,7 +816,15 @@ components:
     StyleLinksType:
       type: array
       items:
-            $ref: '#/components/schemas/LinkType'
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          links:
+            type: array
+            items:
+                $ref: '#/components/schemas/LinkType'
 
 
     ClassSystemLinksType:
@@ -811,7 +910,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ClassType'
+            $ref: '#/components/schemas/ClassTypePost'
 
     Mapping:
       description: |
@@ -829,7 +928,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/MappingsType'
+            $ref: '#/components/schemas/MappingsTypePost'
 
     StyleFormat:
       description: 'A document describing the style format.'
@@ -1004,18 +1103,18 @@ components:
 
   parameters:
 
-    class_id:
-      name: class_id
+    class_id_or_name:
+      name: class_id_or_name
       in: path
-      description: Identifier of a class.
+      description: The name or id of a class.
       required: true
       schema:
         type: integer
 
-    style_format_id:
-      name: style_format_id
+    style_format_id_or_name:
+      name: style_format_id_or_name
       in: path
-      description: Identifier of style format.
+      description: The id or Identifier of style format.
       required: true
       schema:
         type: integer
@@ -1028,10 +1127,10 @@ components:
       schema:
         type: string
 
-    system_id:
-      name: system_id
+    system_id_or_identifier:
+      name: system_id_or_identifier
       in: path
-      description: Identifier of a classification system.
+      description: The Name or Identifier (name-version) of a classification system.
       required: true
       schema:
         type: integer
@@ -1052,18 +1151,18 @@ components:
       schema:
         type: string
 
-    system_id_source:
-      name: system_id_source
+    system_id_or_identifier_source:
+      name: system_id_or_identifier_source
       in: path
-      description: Identifier (name) of a source classification system.
+      description: Identifier (name-version) or id of a source classification system.
       required: true
       schema:
         type: string
 
-    system_id_target:
-      name: system_id_target
+    system_id_or_identifier_target:
+      name: system_id_or_identifier_target
       in: path
-      description: Identifier (name) of a target classification system.
+      description: Identifier (name-version) or id of a target classification system.
       required: true
       schema:
         type: string
