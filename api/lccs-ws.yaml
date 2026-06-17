@@ -22,9 +22,9 @@ info:
     url: 'https://discord.com/channels/689541907621085198#'
     email: brazildatacube@inpe.br
   license:
-    name: MIT
-    url: 'https://opensource.org/licenses/MIT'
-  version: '0.8'
+    name: GNU General Public License v3.0
+    url: 'https://opensource.org/licenses/GPL-3.0'
+  version: '1.0.4'
   x-logo:
     url: 'https://brazil-data-cube.github.io/_static/logo-bdc.png'
     altText: Brazil Data Cube
@@ -1109,7 +1109,7 @@ components:
       description: The name or id of a class.
       required: true
       schema:
-        type: integer
+        type: string
 
     style_format_id_or_name:
       name: style_format_id_or_name
@@ -1117,7 +1117,7 @@ components:
       description: The id or Identifier of style format.
       required: true
       schema:
-        type: integer
+        type: string
 
     style_format_name:
       name: style_format_name
@@ -1133,7 +1133,7 @@ components:
       description: The Name or Identifier (name-version) of a classification system.
       required: true
       schema:
-        type: integer
+        type: string
 
     system_name:
       name: system_name

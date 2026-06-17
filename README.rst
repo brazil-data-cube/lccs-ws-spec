@@ -101,7 +101,7 @@ For Python developers, you can serve the HTML with:
 
 .. code-block:: shell
 
-        python3.7 -m http.server 8080 --directory dist
+        python3.11 -m http.server 8080 --directory dist
 
 
 License
