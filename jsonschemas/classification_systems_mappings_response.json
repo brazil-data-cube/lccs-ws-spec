@@ -30,15 +30,13 @@
   "required": [
     "mappings"
   ],
-  "mappings": {
-      "$id": "#/properties/mappings",
+  "properties": {
+    "mappings": {
       "type": "array",
       "title": "Classification Systems Mappings",
       "description": "Defines classification systems classes mappings from server",
-      "default": false,
       "items": {
-        "$id": "#/properties/mappings/items",
-        "type": "string",
+        "type": "object",
         "title": "Classification Systems Mapping Items",
         "description": "List of Classification Systems Classes Mappings",
         "required": [
@@ -50,66 +48,45 @@
           "target",
           "target_id"
         ],
-        "properties":{
+        "properties": {
           "links": {
             "title": "Links",
             "type": "array",
             "items": {
-                  "$ref": "#/definitions/link"
+              "$ref": "#/definitions/link"
             }
           },
-          "description":{
-            "$id": "#/properties/mappings/items/properties/description",
+          "description": {
             "type": "string",
-            "title": "Description of Classification Systems Classes Mapping",
-            "default": ""
+            "title": "Description of Classification Systems Classes Mapping"
           },
-          "degree_of_similarity":{
-            "$id": "#/properties/mappings/items/properties/degree_of_similarity",
+          "degree_of_similarity": {
             "type": "number",
             "title": "Degree of similarity of Classification Systems Classes Mapping",
-            "default": "",
-            "examples": [
-              0.2
-            ]
+            "examples": [0.2]
           },
           "source": {
-            "$id": "#/properties/mappings/items/properties/source",
             "type": "string",
-            "title": "The Classe source of a mapping",
-            "default": "",
-            "examples": [
-              "Floresta Primária"
-            ]
+            "title": "The Class source of a mapping",
+            "examples": ["Floresta Primária"]
           },
           "source_id": {
-            "$id": "#/properties/mappings/items/properties/source_id",
             "type": "number",
             "title": "The id of source Class",
-            "default": "",
-            "examples": [
-              2
-            ]
+            "examples": [2]
           },
           "target": {
-            "$id": "#/properties/mappings/items/properties/source",
             "type": "string",
-            "title": "The Classe target of a mapping",
-            "default": "",
-            "examples": [
-              "Floresta"
-            ]
+            "title": "The Class target of a mapping",
+            "examples": ["Floresta"]
           },
           "target_id": {
-            "$id": "#/properties/mappings/items/properties/target_id",
             "type": "number",
             "title": "The id of target Class",
-            "default": "",
-            "examples": [
-              21
-            ]
+            "examples": [21]
           }
         }
       }
     }
+  }
 }
