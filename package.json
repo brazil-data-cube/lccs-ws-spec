@@ -6,8 +6,8 @@
   "scripts": {
     "build": "redocly build-docs api/lccs-ws.yaml --output dist/index.html"
   },
-  "author": "BDC",
-  "license": "GNU 3.0",
+  "author": "Brazil Data Cube (BDC)",
+  "license": "GPL-3.0 license",
   "dependencies": {
     "@redocly/cli": "^2.60.0"
   }
