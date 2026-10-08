@@ -4,11 +4,11 @@
   "description": "Land Cover Classification System Web Service - Specification",
   "main": "index.js",
   "scripts": {
-    "build": "redoc-cli bundle api/lccs-ws.yaml --output dist/index.html"
+    "build": "redocly build-docs api/lccs-ws.yaml --output dist/index.html"
   },
-  "author": "Fabiana Zioti",
-  "license": "MIT",
+  "author": "BDC",
+  "license": "GNU 3.0",
   "dependencies": {
-    "redoc-cli": "^0.10.2"
+    "@redocly/cli": "^2.60.0"
   }
 }
