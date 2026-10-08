@@ -6,13 +6,10 @@ info:
     The **L**and **C**over **C**lassification **S**ystem **W**eb **S**ervice (LCCS-WS) is designed to handle classification systems traditionally used in land use and cover data products. It also provides access to the map symbology based on style formats such as the ones supported in QGIS and GeoServer.
 
     There are free and open source implementations based on this specification:
-    - [lccs-ws](https://github.com/brazil-data-cube/lccs-ws): is a LCCS web server implemented in Python.
 
     - [lccs.py](https://github.com/brazil-data-cube/lccs.py): is a client library for Python.
 
     - [rlccs](https://github.com/brazil-data-cube/rlccs): is a client library for R.
-
-    - [wlts](https://github.com/brazil-data-cube/wlts): the Land Use and Cover Trajectory web service complements the LCCS API with the concept of trajectories.
 
     - [wlts.py](https://github.com/brazil-data-cube/wlts.py): is a Python client library that makes easy the access to trajectories in land use and land cover maps.
 
@@ -31,10 +28,8 @@ info:
     href: 'https://github.com/brazil-data-cube'
 
 servers:
-  - url: 'https://brazildatacube.dpi.inpe.br/lccs/'
+  - url: 'https://data.inpe.br/bdc/lccs/v1/'
     description: Production server
-  - url: 'https://brazildatacube.dpi.inpe.br/dev/lccs/'
-    description: Development server
 
 paths:
 
